@@ -22,5 +22,5 @@
      android:id="@+id/toggle"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="Toggle"/>
+       android:text="@string/transmit_action"/>
 </LinearLayout>

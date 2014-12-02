@@ -1,11 +1,11 @@
 package com.mflt.icici;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LightSensor extends ActionBarActivity {
+public class LightSensor extends Activity {
 
 
 	private boolean isLighOn = false;
@@ -49,26 +49,7 @@ public class LightSensor extends ActionBarActivity {
 				EditText field = (EditText)findViewById(R.id.lednum);
 				Integer num = new Integer(Integer.parseInt(field.getText().toString()));
 				String bin = new String(Integer.toBinaryString(num));
-				//			if (isLighOn) {
-				//
-				//				Log.i("info", "torch is turn off!");
-				//
-				//				p.setFlashMode(Parameters.FLASH_MODE_OFF);
-				//				camera.setParameters(p);
-				//				camera.stopPreview();
-				//				isLighOn = false;
-				//
-				//			} else {
-				//
-				//				Log.i("info", "torch is turn on!");
-				//
-				//				p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-				//
-				//				camera.setParameters(p);
-				//				camera.startPreview();
-				//				isLighOn = true;
-				//
-				//			}
+		
 				for (int i=0;i<bin.length();i++) {
 					if (((String)(bin.charAt(i) + "")).equals("1")){
 						if (isLighOn) {
@@ -108,7 +89,7 @@ public class LightSensor extends ActionBarActivity {
 							
 					}
 					try {
-						Thread.sleep(150);
+						Thread.sleep(10);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -148,6 +129,5 @@ public class LightSensor extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-
+	 
 }
