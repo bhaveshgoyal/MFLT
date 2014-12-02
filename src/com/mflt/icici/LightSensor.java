@@ -47,21 +47,42 @@ public class LightSensor extends Activity {
 				camera = Camera.open();
 				final Parameters p = camera.getParameters();
 				EditText field = (EditText)findViewById(R.id.lednum);
-				Integer num = new Integer(Integer.parseInt(field.getText().toString()));
-				String bin = new String(Integer.toBinaryString(num));
-		
-				for (int i=0;i<bin.length();i++) {
-					if (((String)(bin.charAt(i) + "")).equals("1")){
-						if (isLighOn) {
-
-							Log.i("info", "torch is turn off!");
-
-							p.setFlashMode(Parameters.FLASH_MODE_OFF);
-							camera.setParameters(p);
-							camera.stopPreview();
-							isLighOn = false;
-
+				String num = new String(field.getText().toString());
+				String[] bin = new String[4*num.length()];
+				int j = 0;
+				String tempstr = new String();
+				for(int i = 0; i < num.length();i++){
+					
+						Integer temp = new Integer(Integer.parseInt(num.charAt(i) + ""));
+						
+						tempstr = repeat("0",4-Integer.toBinaryString(temp).length()) + Integer.toBinaryString(temp);
+						
+						for(int index = 0; index < 4; index++){
+						bin[j++] = tempstr.charAt(index) + "";
+						
 						}
+						
+				}
+				String disp = new String();
+				for(int i=0;i<bin.length;i++){
+					disp += bin[i] + "";
+				}
+
+				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_SHORT);
+				toasty.show();
+				for (int i=0;i<bin.length;i++) {
+					
+					if (((String)(bin[i] + "")).equals("1")){
+//						if (isLighOn) {
+//
+//							Log.i("info", "torch is turn off!");
+//
+//							p.setFlashMode(Parameters.FLASH_MODE_OFF);
+//							camera.setParameters(p);
+//							camera.stopPreview();
+//							isLighOn = false;
+//
+//						}
 						
 							p.setFlashMode(Parameters.FLASH_MODE_TORCH);
 							camera.setParameters(p);
@@ -71,17 +92,17 @@ public class LightSensor extends Activity {
 						
 					}
 					
-					else if (((String)(bin.charAt(i) + "")).equals("0")){
-						if (isLighOn == false) {
-
-							Log.i("info", "torch is on!");
-
-							p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-							camera.setParameters(p);
-							camera.startPreview();
-							isLighOn = true;
-
-						}
+					else if (((String)(bin[i] + "")).equals("0")){
+//						if (isLighOn == false) {
+//
+//							Log.i("info", "torch is on!");
+//
+//							p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+//							camera.setParameters(p);
+//							camera.startPreview();
+//							isLighOn = true;
+//
+//						}
 							p.setFlashMode(Parameters.FLASH_MODE_OFF);
 							camera.setParameters(p);
 							camera.stopPreview();
@@ -89,7 +110,9 @@ public class LightSensor extends Activity {
 							
 					}
 					try {
-						Thread.sleep(10);
+						EditText delfield = (EditText)findViewById(R.id.leddelay);
+						Integer delay = new Integer(Integer.parseInt(delfield.getText().toString()));
+						Thread.sleep(delay);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -113,6 +136,10 @@ public class LightSensor extends Activity {
 		});
 
 	}
+	   public static String repeat(String str, int times) {
+	        return new String(new char[times]).replace("\0", str);
+	    }
+	   
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
