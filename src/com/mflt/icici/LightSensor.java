@@ -39,13 +39,13 @@ public class LightSensor extends Activity {
 			return;
 		}
 
-		camera = Camera.open();
-		final Parameters p = camera.getParameters();
 
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
+				camera = Camera.open();
+				final Parameters p = camera.getParameters();
 				EditText field = (EditText)findViewById(R.id.lednum);
 				Integer num = new Integer(Integer.parseInt(field.getText().toString()));
 				String bin = new String(Integer.toBinaryString(num));
@@ -106,7 +106,9 @@ public class LightSensor extends Activity {
 
 				Toast toast = Toast.makeText(context, text, duration);
 				toast.show();
-			
+				if (camera != null){
+					camera.release();
+				}
 			}
 		});
 
