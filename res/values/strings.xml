@@ -4,5 +4,6 @@
     <string name="app_name">ICICI MFLT</string>
     <string name="transmit_action">Transmit</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_login">MFLT | LogIn</string>
 
 </resources>

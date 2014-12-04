@@ -1,5 +1,8 @@
 package com.mflt.icici;
 
+import java.util.Date;
+import java.util.Timer;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -39,7 +42,6 @@ public class LightSensor extends Activity {
 			return;
 		}
 
-
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -49,8 +51,13 @@ public class LightSensor extends Activity {
 				EditText field = (EditText)findViewById(R.id.lednum);
 				String num = new String(field.getText().toString());
 				String[] bin = new String[4*num.length()];
+//				+ num.length()];
 				int j = 0;
 				String tempstr = new String();
+//				bin[0]="0";
+//				bin[1] ="0";
+//				bin[2] = "0";
+//				bin[3] ="1";
 				for(int i = 0; i < num.length();i++){
 					
 						Integer temp = new Integer(Integer.parseInt(num.charAt(i) + ""));
@@ -61,6 +68,13 @@ public class LightSensor extends Activity {
 						bin[j++] = tempstr.charAt(index) + "";
 						
 						}
+//						for(int index = 0; index < 4; index++){
+//							
+//							if (index == 3){
+//								bin[j++] = "1";
+//							}
+//							bin[j++] =  "0";
+//							}
 						
 				}
 				String disp = new String();
@@ -109,13 +123,21 @@ public class LightSensor extends Activity {
 							isLighOn = false;
 							
 					}
-					try {
+//					try {
 						EditText delfield = (EditText)findViewById(R.id.leddelay);
 						Integer delay = new Integer(Integer.parseInt(delfield.getText().toString()));
-						Thread.sleep(delay);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+//						Thread.sleep(delay);
+//						try {
+//							TimeUnit.MILLISECONDS.sleep(delay);
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+						long start = new Date().getTime();
+						while(new Date().getTime() - start < delay){}
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
 				}
 				if (isLighOn){
 				p.setFlashMode(Parameters.FLASH_MODE_OFF);
@@ -155,7 +177,7 @@ public class LightSensor extends Activity {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
-		}
+		}         
 		return super.onOptionsItemSelected(item);
 	}
 	 
