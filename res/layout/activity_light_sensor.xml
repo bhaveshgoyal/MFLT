@@ -2,10 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f6f6f6"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mflt.icici.LightSensor" >
 
@@ -24,101 +22,142 @@
         android:hint="Delay"
         android:inputType="number" />
 
-    <Button
-        android:id="@+id/toggle"
+    <GridLayout
+        android:id="@+id/pin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/leddelay"
-        android:text="@string/transmit_action" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dip"
+        android:columnCount="4"
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toggle"
-        android:text="Stop" />
+        <ImageButton
+            android:id="@+id/pin0"
+            android:background="@drawable/dollar_empty2"
+            android:layout_marginRight="15dip"
+    
+            android:src="@drawable/dollar_empty2" />
 
-    <RelativeLayout
-        android:id="@+id/extra"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/grid"
-        android:layout_below="@+id/grid"
-        android:orientation="horizontal"
-        android:weightSum="3" >
+        <ImageButton
+            android:layout_marginRight="15dip"
+            android:id="@+id/pin1"
+            android:background="@drawable/dollar_empty2"
+     
+            android:src="@drawable/dollar_empty2" />
+        
+        <ImageButton
+            android:layout_marginRight="15dip"
+            android:id="@+id/pin2"
+            android:background="@drawable/dollar_empty2"
 
-        <Button
-            android:id="@+id/zero"
-            
-            android:layout_width="135dp"
-        android:background="@drawable/keypadsel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0" />
+            android:src="@drawable/dollar_empty2" />
 
-        <Button
-            android:layout_width="135dp"
-            
-        android:background="@drawable/keypadsel"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/zero"
-            android:text="Back" />
-    </RelativeLayout>
+        <ImageButton
+            android:id="@+id/pin3"
+            android:background="@drawable/dollar_empty2"
+      
+            android:src="@drawable/dollar_empty2" />
+    </GridLayout>
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/extra"
-        android:layout_alignRight="@+id/extra"
-        android:layout_below="@id/extra"
-        android:text="Withdraw" />
-
+    
     <GridLayout
-        android:id="@+id/grid"
+        android:id="@+id/pad"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/stop"
-        android:layout_below="@+id/stop"
-        android:columnCount="3"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:columnCount="4"
         android:orientation="horizontal" >
 
         <Button
-            android:background="@drawable/keypadsel"
+            android:id="@+id/button1"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/lightsel"
             android:text="1" />
 
         <Button
-            android:background="@drawable/keypadsel"
+            android:id="@+id/button2"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/lightsel"
             android:text="2" />
 
         <Button
-            android:background="@drawable/keypadsel"
+            android:id="@+id/button3"
+            android:layout_columnSpan="1"
+            android:background="@drawable/darksel"
             android:text="3" />
 
         <Button
+            android:id="@+id/buttont"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:layout_rowSpan="4"
+            android:paddingLeft="22dip"
+            android:drawableLeft="@drawable/solution"
+            android:drawableStart="@drawable/solution"
             android:background="@drawable/keypadsel"
+            />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
             android:text="4" />
 
         <Button
-            android:background="@drawable/keypadsel"
+            android:id="@+id/button5"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/lightsel"
             android:text="5" />
 
         <Button
-            android:background="@drawable/keypadsel"
+            android:id="@+id/button6"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
             android:text="6" />
 
         <Button
-            android:background="@drawable/keypadsel"
+            android:id="@+id/button7"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
             android:text="7" />
 
         <Button
-            android:background="@drawable/keypadsel"
+            android:id="@+id/button8"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/lightsel"
             android:text="8" />
 
         <Button
-            android:background="@drawable/keypadsel"
+            android:id="@+id/button9"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
             android:text="9" />
+
+        <Button
+            android:id="@+id/button0"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
+            android:text="0" />
+
+        <Button
+            android:id="@+id/buttonb"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:drawableRight="@drawable/backs"
+            android:paddingRight="8dip"
+            android:text="Clear"
+            android:background="@drawable/lightsel" />
     </GridLayout>
 
 </RelativeLayout>

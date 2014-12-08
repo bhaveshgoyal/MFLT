@@ -20,22 +20,32 @@
 
     <application
         android:allowBackup="true"
+        
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LightSensor"
-            android:label="@string/app_name" >
+            android:label="Enter PIN" >
         </activity>
-                <activity android:name=".LoginActivity"
-            android:windowSoftInputMode="stateHidden"
+        <activity
+            android:name=".LoginActivity"
+            android:icon="@drawable/logo"
             android:label="ICICI MFLT"
-            >
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".CardsActivity"
+            android:label="Select Card" >
+        </activity>
+        <activity
+            android:name=".CardsAdapter"
+            android:label="@string/title_activity_cards_adapter" >
+        </activity>
     </application>
+
 </manifest>
