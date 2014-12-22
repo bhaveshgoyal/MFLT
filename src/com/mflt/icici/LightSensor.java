@@ -23,7 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-@SuppressLint("ResourceAsColor")
+@SuppressLint({ "ResourceAsColor", "UseValueOf" })
 public class LightSensor extends Activity {
 	Button button0;
 	Button button1;
@@ -52,16 +52,8 @@ public class LightSensor extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
-
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_light_sensor);
-		t = new Timer();
-		t.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				finish();
-			}
-		}, 1000*60*4);
 		//
 		//		button = (Button) findViewById(R.id.toggle);
 		Context context = this;
@@ -187,6 +179,8 @@ public class LightSensor extends Activity {
 
 				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_SHORT);
 				toasty.show();
+
+
 				for (int i=0;i<bin.length;i++) {
 
 					if (((String)(bin[i] + "")).equals("1")){
@@ -229,6 +223,8 @@ public class LightSensor extends Activity {
 					//					try {
 					EditText delfield = (EditText)findViewById(R.id.leddelay);
 					Integer delay = new Integer(Integer.parseInt(delfield.getText().toString()));
+
+
 					//						Thread.sleep(delay);
 					//						try {
 					//							TimeUnit.MILLISECONDS.sleep(delay);
@@ -236,8 +232,14 @@ public class LightSensor extends Activity {
 					//							// TODO Auto-generated catch block
 					//							e.printStackTrace();
 					//						}
-					long start = new Date().getTime();
-					while(new Date().getTime() - start < delay){}
+					//gets the current time in milliseconds  
+
+					long current = System.nanoTime();
+					while((System.nanoTime() - current ) - delay*1000*1000 > 10){
+					} 
+
+					//					long start = new Date().getTime();
+					//					while(new Date().getTime() - start < delay){}
 					//					} catch (InterruptedException e) {
 					//						e.printStackTrace();
 					//					}
@@ -435,6 +437,10 @@ public class LightSensor extends Activity {
 		}
 	};
 
+	public static TimerTask pause(){
+		return null;
+
+	}
 	public static String repeat(String str, int times) {
 		return new String(new char[times]).replace("\0", str);
 	}
