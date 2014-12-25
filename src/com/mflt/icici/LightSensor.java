@@ -1,6 +1,6 @@
 package com.mflt.icici;
 
-import java.util.Date;
+import java.math.BigInteger;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 @SuppressLint({ "ResourceAsColor", "UseValueOf" })
 public class LightSensor extends Activity {
@@ -144,7 +145,37 @@ public class LightSensor extends Activity {
 				camera = Camera.open();
 				final Parameters p = camera.getParameters();
 				EditText field = (EditText)findViewById(R.id.lednum);
-				String num = new String(field.getText().toString());
+				String numint = new String(field.getText().toString());
+				RSA rsa = new RSA(1024);
+				//
+//				String text1 = "Yellow and Black Border Collies";
+				if (pcode.length() == 4)
+				{
+					numint = numint + pcode;
+				}
+				else{
+				Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter 4 Digit Number", Toast.LENGTH_LONG);	
+				toaste.show();
+				if (camera != null){
+					camera.release();
+				}
+				return;
+				}
+				System.out.print("Plaintext: " + numint);
+				BigInteger plaintext = new BigInteger(numint.getBytes());
+				//
+				
+				BigInteger ciphertext = rsa.encrypt(plaintext);
+				String num = "" + ciphertext;
+				System.out.print("Ciphertext: " + ciphertext);
+				Toast toastte = Toast.makeText(getApplicationContext(), num, Toast.LENGTH_LONG);	
+				toastte.show();
+				
+				plaintext = rsa.decrypt(ciphertext);
+				//
+				String text2 = new String(plaintext.toByteArray());
+				System.out.print("Plaintext: " + text2);
+
 				String[] bin = new String[4*num.length()];
 				//				+ num.length()];
 				int j = 0;
