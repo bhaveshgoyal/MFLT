@@ -4,17 +4,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,13 +18,16 @@ public class CardsActivity extends Activity {
 	ListView list;
 	Button floatbut;
 	String[] web = {
-			"ICICI",
-			"HDFC",
-			"IDBI",
+			"4792721650687941",
+			"9856412365789654",
+			"7896542312469873",
 			"CANARA",
 			"BOB",
 			"BOI"
 	} ;
+
+	String nos = new String("nos");
+	String key = new String("key");
 	Integer[] imageId = {
 			R.drawable.icici,
 			R.drawable.hdfc,
@@ -90,9 +89,14 @@ public class CardsActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Toast.makeText(CardsActivity.this, "You Selected " +web[+position], Toast.LENGTH_SHORT).show();
+//				Toast.makeText(CardsActivity.this, "You Selected " +web[+position], Toast.LENGTH_SHORT).show();
+				Bundle b=new Bundle();
+				b.putStringArray(nos, web);
+				b.putInt(key, +position);
 				Intent i = new Intent(getApplicationContext(),com.mflt.icici.
 						LightSensor.class);
+				i.putExtras(b);
+
 				startActivity(i);
 			}
 		});

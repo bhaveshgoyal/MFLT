@@ -104,6 +104,10 @@ public class LoginActivity extends Activity {
 						Toast toasty = Toast.makeText(getApplicationContext(), "Password Can't Be Empty", Toast.LENGTH_SHORT);
 						toasty.show();
 					}
+					else if (loginf.getText().toString().length() < 4){
+						Toast toasty = Toast.makeText(getApplicationContext(), "Password Should Be Min 4 Characters", Toast.LENGTH_SHORT);
+						toasty.show();
+					}
 					else{
 						login();
 					}		

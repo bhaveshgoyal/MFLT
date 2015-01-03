@@ -1,18 +1,19 @@
 package com.mflt.icici;
 
-import java.math.BigInteger;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 @SuppressLint({ "ResourceAsColor", "UseValueOf" })
 public class LightSensor extends Activity {
@@ -46,14 +46,22 @@ public class LightSensor extends Activity {
 	private boolean isLighOn = false;
 	String fld = new String();
 	Timer t;
-	private Camera camera;
+	String num = new String();
+	String[] bin=null;
+	String tempstr = new String();
+	Timer timer;
+	Bundle b;
+	String nos = new String("nos");
 
+	String key = new String("key");
 	private Button button;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		bin = null;
+		b = this.getIntent().getExtras();
 		setContentView(R.layout.activity_light_sensor);
 		//
 		//		button = (Button) findViewById(R.id.toggle);
@@ -140,56 +148,68 @@ public class LightSensor extends Activity {
 
 		buttont.setOnClickListener(new OnClickListener() {
 
+
+			int mind = 0;
+			private Camera camera = Camera.open();
+			final Parameters p = camera.getParameters();
+			
 			@Override
 			public void onClick(View arg0) {
-				camera = Camera.open();
-				final Parameters p = camera.getParameters();
-				EditText field = (EditText)findViewById(R.id.lednum);
-				String numint = new String(field.getText().toString());
-				RSA rsa = new RSA(1024);
+				String[] array=b.getStringArray(nos);
+				int pos = b.getInt(key);
+				mind = 0;
+//				EditText field = (EditText)findViewById(R.id.lednum);
+				num = "" + 3;
+				num += array[pos];
+//				num += field.getText().toString();
+				//				RSA rsa = new RSA(1024);
 				//
-//				String text1 = "Yellow and Black Border Collies";
-				if (pcode.length() == 4)
-				{
-					numint = numint + pcode;
-				}
-				else{
-				Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter 4 Digit Number", Toast.LENGTH_LONG);	
-				toaste.show();
-				if (camera != null){
-					camera.release();
-				}
-				return;
-				}
-				System.out.print("Plaintext: " + numint);
-				BigInteger plaintext = new BigInteger(numint.getBytes());
-				//
-				
-				BigInteger ciphertext = rsa.encrypt(plaintext);
-				String num = "" + ciphertext;
-				System.out.print("Ciphertext: " + ciphertext);
-				Toast toastte = Toast.makeText(getApplicationContext(), num, Toast.LENGTH_LONG);	
-				toastte.show();
-				
-				plaintext = rsa.decrypt(ciphertext);
-				//
-				String text2 = new String(plaintext.toByteArray());
-				System.out.print("Plaintext: " + text2);
-
-				String[] bin = new String[4*num.length()];
+				//				String text1 = "Yellow and Black Border Collies";
+								if (pcode.length() == 4)
+								{
+									num = num + pcode;
+								}
+								else{
+								Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter 4 Digit Number", Toast.LENGTH_LONG);	
+								toaste.show();
+								if (camera != null){
+									camera.release();
+								}
+								return;
+								}
+								num += "" + 3;
+				//				System.out.print("Plaintext: " + numint);
+				//				BigInteger plaintext = new BigInteger(numint.getBytes());
+				//				//
+				//				
+				//				BigInteger ciphertext = rsa.encrypt(plaintext);
+				//				String num		 = "" + ciphertext;
+				////				System.out.print("Ciphertext: " + ciphertext);
+				//				System.out.println(num);
+				//				Toast toastte = Toast.makeText(getApplicationContext(), num, Toast.LENGTH_LONG);	
+				//				toastte.show();
+				//				
+				//				plaintext = rsa.decrypt(ciphertext);
+				//				//
+				//				String text2 = new String(plaintext.toByteArray());
+				////				System.out.print("Plaintext: " + text2);
+								String[] num2 = new String[2*num.length()];
+								for(int tmp = 1; tmp <= 2*num.length();tmp++){
+								if (tmp % 2 == 1){
+									num2[tmp - 1] = "" + 1;
+								}
+								else{
+									num2[tmp - 1] = num.charAt((tmp/2) - 1) + "";
+								}
+								}
+				bin = new String[4*num2.length];
 				//				+ num.length()];
-				int j = 0;
-				String tempstr = new String();
-				//				bin[0]="0";
-				//				bin[1] ="0";
-				//				bin[2] = "0";
-				//				bin[3] ="1";
-				for(int i = 0; i < num.length();i++){
+				int j=0;
+				for(int i = 0; i < num2.length;i++){
 
-					Integer temp = new Integer(Integer.parseInt(num.charAt(i) + ""));
+					Integer temp = new Integer(Integer.parseInt(num2[i] + ""));
 
 					tempstr = repeat("0",4-Integer.toBinaryString(temp).length()) + Integer.toBinaryString(temp);
-
 					for(int index = 0; index < 4; index++){
 						bin[j++] = tempstr.charAt(index) + "";
 
@@ -208,92 +228,162 @@ public class LightSensor extends Activity {
 					disp += bin[i] + "";
 				}
 
-				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_SHORT);
-				toasty.show();
+//				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_LONG);
+//				toasty.show();
+
+				timer = new Timer();
+				EditText delfield = (EditText)findViewById(R.id.leddelay);
+				Integer delay = new Integer(Integer.parseInt(delfield.getText().toString()));
+
+				timer.scheduleAtFixedRate(new TimerTask() {
+
+					synchronized public void run() {
+
+						trans();
 
 
-				for (int i=0;i<bin.length;i++) {
-
-					if (((String)(bin[i] + "")).equals("1")){
-						//						if (isLighOn) {
-						//
-						//							Log.i("info", "torch is turn off!");
-						//
-						//							p.setFlashMode(Parameters.FLASH_MODE_OFF);
-						//							camera.setParameters(p);
-						//							camera.stopPreview();
-						//							isLighOn = false;
-						//
-						//						}
-
-						p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-						camera.setParameters(p);
-						camera.startPreview();
-						isLighOn = true;
-
-
-					}
-
-					else if (((String)(bin[i] + "")).equals("0")){
-						//						if (isLighOn == false) {
-						//
-						//							Log.i("info", "torch is on!");
-						//
-						//							p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-						//							camera.setParameters(p);
-						//							camera.startPreview();
-						//							isLighOn = true;
-						//
-						//						}
-						p.setFlashMode(Parameters.FLASH_MODE_OFF);
-						camera.setParameters(p);
-						camera.stopPreview();
-						isLighOn = false;
-
-					}
-					//					try {
-					EditText delfield = (EditText)findViewById(R.id.leddelay);
-					Integer delay = new Integer(Integer.parseInt(delfield.getText().toString()));
-
-
-					//						Thread.sleep(delay);
-					//						try {
-					//							TimeUnit.MILLISECONDS.sleep(delay);
-					//						} catch (InterruptedException e) {
-					//							// TODO Auto-generated catch block
-					//							e.printStackTrace();
-					//						}
-					//gets the current time in milliseconds  
-
-					long current = System.nanoTime();
-					while((System.nanoTime() - current ) - delay*1000*1000 > 10){
-					} 
-
-					//					long start = new Date().getTime();
-					//					while(new Date().getTime() - start < delay){}
-					//					} catch (InterruptedException e) {
-					//						e.printStackTrace();
-					//					}
-				}
-				if (isLighOn){
-					p.setFlashMode(Parameters.FLASH_MODE_OFF);
-					camera.setParameters(p);
-					camera.stopPreview();
-					isLighOn = false;
-				}
+					}}, 0, delay);
+				
 				Context context = getApplicationContext();
-				CharSequence text = "Code Successfully Transmitted";
+				CharSequence text = "Transmitting Data...";
 				int duration = Toast.LENGTH_SHORT;
 
 				Toast toast = Toast.makeText(context, text, duration);
 				toast.show();
-				if (camera != null){
-					camera.release();
+				//				 mHandler.postDelayed(new Runnable() {
+				//			            public void run() {
+				//							trans();
+				//			            }
+				//			        }, 500);
+				//			    timer.scheduleAtFixedRate(new TimerTask() {
+				//
+				//			        synchronized public void run() {
+				//
+				//
+				//							if (isLighOn){
+				//								p.setFlashMode(Parameters.FLASH_MODE_OFF);
+				//								camera.setParameters(p);
+				//								camera.stopPreview();
+				//								isLighOn = false;
+				//							}
+				//			            if (camera != null){
+				//			            	camera.release();
+				//			            }
+				//			            return;
+				//
+				//			        }}, delay*num.length()*4,);
+
+				
+								
+				//				bin[0]="0";
+				//				bin[1] ="0";
+				//				bin[2] = "0";
+				//				bin[3] ="1";
+			}
+
+			public void trans(){
+
+				if (mind == bin.length){
+					if (isLighOn){
+						p.setFlashMode(Parameters.FLASH_MODE_OFF);
+						camera.setParameters(p);
+						camera.stopPreview();
+						isLighOn = false;
+					}
+					if (camera != null){
+						camera.release();
+						
+					}
+
+
+					System.exit(0);
 				}
+				//				for (int i=0;i<bin.length;i++) {
+				//					Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+
+				//					long current = System.nanoTime();
+
+				if (((String)(bin[mind] + "")).equals("1")){
+					Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+
+
+					//						while((System.nanoTime() - current ) - delay*1000*1000 < 5){
+					//							Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+
+					p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+					camera.setParameters(p);
+					camera.startPreview();
+					isLighOn = true;
+					//						}
+					//						p.setFlashMode(Parameters.FLASH_MODE_OFF);
+					//						camera.setParameters(p);
+					//						camera.stopPreview();
+					//						isLighOn = false;
+				}
+
+
+				else if (((String)(bin[mind] + "")).equals("0")){
+					//						Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+
+					//						if (isLighOn == false) {
+					//
+					//							Log.i("info", "torch is on!");
+					//
+					//							p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+					//							camera.setParameters(p);
+					//							camera.startPreview();
+					//							isLighOn = true;
+					//
+					//						}
+					//						while((System.nanoTime() - current )  - delay*1000*1000 < 5  ){
+					//							Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+
+					p.setFlashMode(Parameters.FLASH_MODE_OFF);
+					camera.setParameters(p);
+					camera.stopPreview();
+					isLighOn = false;
+					//						}
+
+					//					s	isLighOn = true;
+				}
+				mind++;
+				//					try {
+
+
+				//						Thread.sleep(delay);
+				//						try {
+				//							TimeUnit.MILLISECONDS.sleep(delay);
+				//						} catch (InterruptedException e) {
+				//							// TODO Auto-generated catch block
+				//							e.printStackTrace();
+				//						}
+				//gets the current time in milliseconds  
+
+
+				//						try {
+				//							synchronized (Thread.currentThread()) {
+				//
+				//								Thread.currentThread().wait(delay);	
+				//							}
+				//						} catch (InterruptedException e) {
+				//							// TODO Auto-generated catch block
+				//							e.printStackTrace();
+				//						}
+				//					} 
+
+				//					long start = new Date().getTime();
+				//					while(new Date().getTime() - start < delay){}
+				//					} catch (InterruptedException e) {
+				//						e.printStackTrace();
+				//					}
+				//				}
+
 			}
 		});
 
 	}
+
+
 
 
 	View.OnClickListener pinButtonHandler = new View.OnClickListener() {

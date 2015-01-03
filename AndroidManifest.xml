@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LightSensor"
-            android:label="Enter PIN" >
+            android:label="Secure Transaction Number" >
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -40,7 +40,7 @@
         </activity>
         <activity
             android:name=".CardsActivity"
-            android:label="Select Card" >
+            android:label="Available Cards" >
         </activity>
         <activity
             android:name=".CardsAdapter"
