@@ -26,10 +26,12 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LightSensor"
-            android:label="Secure Transaction Number" >
+            android:label="Secure Transaction Number"
+             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".LoginActivity"
+             android:screenOrientation="portrait"
             android:icon="@drawable/logo"
             android:label="ICICI MFLT"
             android:windowSoftInputMode="stateHidden" >
@@ -40,10 +42,12 @@
         </activity>
         <activity
             android:name=".CardsActivity"
+             android:screenOrientation="portrait"
             android:label="Available Cards" >
         </activity>
         <activity
             android:name=".CardsAdapter"
+             android:screenOrientation="portrait"
             android:label="@string/title_activity_cards_adapter" >
         </activity>
     </application>
