@@ -242,17 +242,21 @@ public class LightSensor extends Activity {
 									num2[tmp - 1] = num.charAt((tmp/2) - 1) + "";
 								}
 								}
-				bin = new String[4*num2.length];
+				bin = new String[3*num2.length];
 				//				+ num.length()];
 				int j=0;
 				for(int i = 0; i < num2.length;i++){
-
+					if (i%2 == 1){
+						bin[j++] = "0";
+						bin[j++] = "1";
+					}
+					else{
 					Integer temp = new Integer(Integer.parseInt(num2[i] + ""));
 
 					tempstr = repeat("0",4-Integer.toBinaryString(temp).length()) + Integer.toBinaryString(temp);
 					for(int index = 0; index < 4; index++){
 						bin[j++] = tempstr.charAt(index) + "";
-
+					}
 					}
 					//						for(int index = 0; index < 4; index++){
 					//							
