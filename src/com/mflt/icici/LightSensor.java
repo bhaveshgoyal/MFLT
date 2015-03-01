@@ -6,27 +6,29 @@ import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraDevice;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ActionProvider.VisibilityListener;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+
 
 @SuppressLint({ "ResourceAsColor", "UseValueOf" })
 public class LightSensor extends Activity {
@@ -59,18 +61,22 @@ public class LightSensor extends Activity {
 	static Camera camera;
 	static boolean hasflash = false;
 	String key = new String("key");
+	String amount = new String("0");
+	String dialog_option;
 	private Button button;
 	static LinearLayout screen;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		bin = null;
+
 		screen = (LinearLayout)findViewById(R.id.screen_trans);
 		hasflash = getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-//		hasflash = false;
+		//		hasflash = false;
 		if (hasflash){
-		camera = Camera.open();
+			camera = Camera.open();
 		}
 		b = this.getIntent().getExtras();
 		setContentView(R.layout.activity_light_sensor);
@@ -159,65 +165,171 @@ public class LightSensor extends Activity {
 
 		buttont.setOnClickListener(new OnClickListener() {
 
-				final Parameters p = camera.getParameters();
+			final Parameters p = camera.getParameters();
 
 			int mind = 0;
-			
+
 			@Override
 			public void onClick(View arg0) {
 				String[] array=b.getStringArray(nos);
 				int pos = b.getInt(key);
 				mind = 0;
 				EditText field = (EditText)findViewById(R.id.lednum);
-//				num = "" + 3;
-				num = "";
-//				num += array[pos];
+				num = "" + 7;
+				//				num = "";
+				//				num += array[pos];
 				num += field.getText().toString();
-				 if (num.length() != 16){
-						Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter 16 Digit Card Number", Toast.LENGTH_LONG);	
-						toaste.show();
-//						if (camera != null){
-//							camera.release();
-//						}
-						return;
-//						}	
-								    }
-				  BigInteger p = new BigInteger("227");
-				    BigInteger q = new BigInteger("109");
-				    BigInteger n = new BigInteger("24743");
-				    BigInteger e = new BigInteger("13");
-//					System.out.println(n);  
-				    RSA rsa = new RSA(n,e);
-				    int[] order = {12,3,7,5,16,14,9,1,8,13,4,11,15,10,6,2};
-				    String[] jumbled = new String[16];
-				    for (int i = 0; i < jumbled.length; i++) {
-						if (order[i] == 13 || order[i] == 15 || order[i] == 14 || order[i] == 16){
-							  BigInteger plain = new BigInteger(num.charAt(order[i]-1) + "");
-							     jumbled[i] = plain.modPow(e, n).toString();
-						}
-						else
-				    	jumbled[i] = num.charAt(order[i]-1) + ""; 
-					}
-				    num = "";
-				    for (int i = 0; i < jumbled.length; i++) {
-						num += jumbled[i];
-					}
-				    System.out.println("num " + num);
-				   
-//				    jumbled[0] = 
+				if (num.length() != 17){
+					Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter 16 Digit Card Number", Toast.LENGTH_LONG);	
+					toaste.show();
+					//						if (camera != null){
+					//							camera.release();
+					//						}
+					return;
+					//						}	
+				}
+				// p = 3041
+				// q == 11927
+				// n = p*q = 36270007
+				// e = 2621
+				// cardnum ^ e mod n
+				BigInteger p = new BigInteger("3041");
+				BigInteger q = new BigInteger("11927");
+				BigInteger n = new BigInteger("36270007");
+				BigInteger e = new BigInteger("2621");
+
+				//				    RSA rsa = new RSA(n,e);
+
+				//				    int[] order = {12,3,7,5,16,14,9,1,8,13,4,11,15,10,6,2};
+				//				    String[] jumbled = new String[16];
+				//				    for (int i = 0; i < jumbled.length; i++) {
+				//						if (order[i] == 13 || order[i] == 15 || order[i] == 14 || order[i] == 16){
+				//							  BigInteger plain = new BigInteger(num.charAt(order[i]-1) + "");
+				//							     jumbled[i] = plain.modPow(e, n).toString();
+				//						}
+				//						else
+				//				    	jumbled[i] = num.charAt(order[i]-1) + ""; 
+				//					}
+
+
+				//				    num = "";
+				//				    for (int i = 0; i < jumbled.length; i++) {
+				//						num += jumbled[i];
+				//					}
+				System.out.println("num " + num);
+
+				//				    jumbled[0] = 
 				//				RSA rsa = new RSA(1024);
 				//
 				//				String text1 = "Yellow and Black Border Collies";
-//								if (pcode.length() == 4)
-//								{
-////									num = num + pcode;
-////									String temp = rsa.encrypt(num);
-////									num = temp;
-//								}
-//								else{
 
-//					
-//								num += "" + 3;
+				if (pcode.length() == 4)
+				{
+					num = num + pcode;
+				}
+				else{
+					Toast.makeText(LightSensor.this,"Pin Should Be 4 Digit",Toast.LENGTH_LONG).show();
+					return;
+				}
+
+				System.out.print("Num length: " + num.length());
+
+				String part_1 = num.substring(1,8);
+				String part_2 = num.substring(8,15);
+				String part_3 = num.substring(15,21);
+				BigInteger unenc_1 = new BigInteger(part_1);
+				String enc_1 = unenc_1.modPow(e,n).toString();
+				BigInteger unenc_2 = new BigInteger(part_2);
+				String enc_2 = unenc_2.modPow(e,n).toString();
+				BigInteger unenc_3 = new BigInteger(part_3);
+				String enc_3 = unenc_3.modPow(e,n).toString();
+
+				String final_enc = enc_1 + enc_2 + enc_3;
+
+
+				num = final_enc;
+				AlertDialog.Builder builderSingle = new AlertDialog.Builder(
+						LightSensor.this);
+				builderSingle.setIcon(R.drawable.ic_launcher);
+				builderSingle.setTitle("Choose An Option");
+				final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+						LightSensor.this,
+						android.R.layout.select_dialog_singlechoice);
+				arrayAdapter.add("Cash Withdraw");
+				arrayAdapter.add("Check Balance");
+				arrayAdapter.add("Change Pin");
+
+
+				LayoutInflater factory = LayoutInflater.from(LightSensor.this);
+				final View textEntryView = factory.inflate(R.layout.design_withdraw, null);  
+
+				builderSingle.setNegativeButton("cancel",
+						new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+
+				builderSingle.setAdapter(arrayAdapter,
+						new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String strName = arrayAdapter.getItem(which);
+						AlertDialog.Builder builderInner = new AlertDialog.Builder(
+								LightSensor.this);
+						if (strName.equals("Cash Withdraw")){
+							dialog_option = "1";
+
+							builderInner.setTitle("Cash Withdrawl");
+							builderInner.setView(textEntryView);
+							builderInner.setPositiveButton("Retrieve",
+									new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(
+										DialogInterface dialog,
+										int which) {
+
+									EditText mUserText;
+									mUserText = (EditText) textEntryView.findViewById(R.id.with_amnt);
+									amount = mUserText.getText().toString();
+									dialog.dismiss();
+									String amnt_parsed = repeat("0",5-amount.length()) + amount;
+									num += dialog_option + amnt_parsed + "7";
+									trans_process();
+								}
+							});
+							builderInner.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									return;   
+								}
+							});
+						}
+						else if (strName.equals("Chack Balance")){
+							dialog_option = "2";
+							dialog.dismiss();
+							String amnt_parsed = repeat("0",5-amount.length()) + amount;
+							num += dialog_option + amnt_parsed + "7";
+							trans_process();
+						}
+						else if (strName.equals("Change Pin")){
+							dialog_option = "3";
+							dialog.dismiss();
+							String amnt_parsed = repeat("0",5-amount.length()) + amount;
+							num += dialog_option + amnt_parsed + "7";
+							trans_process();
+						}
+						builderInner.show();
+					}
+				});
+				builderSingle.show();
+
+				
+
+				//								num += "" + 3;
 				//				System.out.print("Plaintext: " + numint);
 				//				BigInteger plaintext = new BigInteger(numint.getBytes());
 				//				//
@@ -233,75 +345,7 @@ public class LightSensor extends Activity {
 				//				//
 				//				String text2 = new String(plaintext.toByteArray());
 				////				System.out.print("Plaintext: " + text2);
-								String[] num2 = new String[2*num.length()];
-								for(int tmp = 1; tmp <= 2*num.length();tmp++){
-								if (tmp % 2 == 1){
-									num2[tmp - 1] = "" + 1;
-								}
-								else{
-									num2[tmp - 1] = num.charAt((tmp/2) - 1) + "";
-								}
-								}
-				bin = new String[3*num2.length];
-				//				+ num.length()];
-				int j=0;
-				for(int i = 0; i < num2.length;i++){
-					if (i%2 == 1){
-						bin[j++] = "0";
-						bin[j++] = "1";
-					}
-					else{
-					Integer temp = new Integer(Integer.parseInt(num2[i] + ""));
-
-					tempstr = repeat("0",4-Integer.toBinaryString(temp).length()) + Integer.toBinaryString(temp);
-					for(int index = 0; index < 4; index++){
-						bin[j++] = tempstr.charAt(index) + "";
-					}
-					}
-					//						for(int index = 0; index < 4; index++){
-					//							
-					//							if (index == 3){
-					//								bin[j++] = "1";
-					//							}
-					//							bin[j++] =  "0";
-					//							}
-
-				}
-				String disp = new String();
-				for(int i=0;i<bin.length;i++){
-					disp += bin[i] + "";
-				}
-
-//				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_LONG);
-//				toasty.show();
-
-				timer = new Timer();
-				EditText delfield = (EditText)findViewById(R.id.leddelay);
-				Integer delay = new Integer(Integer.parseInt(delfield.getText().toString()));
-				if (delay.toString() == ""){
-					Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter Frequency for Transmission", Toast.LENGTH_LONG);	
-					toaste.show();
-//					if (camera != null){
-//						camera.release();
-//					}
-					return;
-				}
-					
-				timer.scheduleAtFixedRate(new TimerTask() {
-
-					synchronized public void run() {
-
-						trans();
-
-
-					}}, 0, delay);
-				
-				Context context = getApplicationContext();
-				CharSequence text = "Transmitting Data...";
-				int duration = Toast.LENGTH_SHORT;
-
-				Toast toast = Toast.makeText(context, text, duration);
-				toast.show();
+			
 				//				 mHandler.postDelayed(new Runnable() {
 				//			            public void run() {
 				//							trans();
@@ -325,40 +369,115 @@ public class LightSensor extends Activity {
 				//
 				//			        }}, delay*num.length()*4,);
 
-				
-								
+
+
 				//				bin[0]="0";
 				//				bin[1] ="0";
 				//				bin[2] = "0";
 				//				bin[3] ="1";
 			}
 
+			public void trans_process(){
+				String[] num2 = new String[2*num.length()];
+				for(int tmp = 1; tmp <= 2*num.length();tmp++){
+					if (tmp % 2 == 1){
+						num2[tmp - 1] = "" + 1;
+					}
+
+					else{
+						num2[tmp - 1] = num.charAt((tmp/2) - 1) + "";
+					}
+				}
+				bin = new String[3*num2.length];
+				//				+ num.length()];
+				int j=0;
+				for(int i = 0; i < num2.length;i++){
+					if (i%2 == 1){
+						bin[j++] = "0";
+						bin[j++] = "1";
+					}
+
+					else{
+						Integer temp = new Integer(Integer.parseInt(num2[i] + ""));
+
+						tempstr = repeat("0",4-Integer.toBinaryString(temp).length()) + Integer.toBinaryString(temp);
+						for(int index = 0; index < 4; index++){
+							bin[j++] = tempstr.charAt(index) + "";
+						}
+					}
+
+					//						for(int index = 0; index < 4; index++){
+					//							
+					//							if (index == 3){
+					//								bin[j++] = "1";
+					//							}
+					//							bin[j++] =  "0";
+					//							}
+
+				}
+				String disp = new String();
+				for(int i=0;i<bin.length;i++){
+					disp += bin[i] + "";
+				}
+
+				//				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_LONG);
+				//				toasty.show();
+
+				timer = new Timer();
+				EditText delfield = (EditText)findViewById(R.id.leddelay);
+				Integer delay = new Integer(Integer.parseInt(delfield.getText().toString()));
+				if (delay.toString() == ""){
+					Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter Frequency for Transmission", Toast.LENGTH_LONG);	
+					toaste.show();
+					//					if (camera != null){
+					//						camera.release();
+					//					}
+					return;
+				}
+
+
+				timer.scheduleAtFixedRate(new TimerTask() {
+
+					synchronized public void run() {
+
+						trans();
+
+
+					}}, 0, delay);
+
+				Context context = getApplicationContext();
+				CharSequence text = "Transmitting Data...";
+				int duration = Toast.LENGTH_SHORT;
+
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+			}
 			public void trans(){
 
 				if (mind == bin.length){
 					if (hasflash == true){
-					if (isLighOn){
-						p.setFlashMode(Parameters.FLASH_MODE_OFF);
-						camera.setParameters(p);
-						camera.stopPreview();
-						isLighOn = false;
-					}
-					if (camera != null){
-						camera.release();
-						
-					}
+						if (isLighOn){
+							p.setFlashMode(Parameters.FLASH_MODE_OFF);
+							camera.setParameters(p);
+							camera.stopPreview();
+							isLighOn = false;
+						}
+						if (camera != null){
+							camera.release();
+
+						}
 					}
 					else{
 						runOnUiThread(new Runnable() {
-						     @Override
-						     public void run() {
+							@Override
+							public void run() {
 
-						 		LinearLayout temp = (LinearLayout)findViewById(R.id.screen_trans);
+								LinearLayout temp = (LinearLayout)findViewById(R.id.screen_trans);
 								temp.setVisibility(View.GONE);
 
-						    }
+							}
 						});
-//						screen.setVisibility(View.GONE);
+						//						screen.setVisibility(View.GONE);
 					}
 
 
@@ -376,22 +495,22 @@ public class LightSensor extends Activity {
 					//						while((System.nanoTime() - current ) - delay*1000*1000 < 5){
 					//							Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 					if (hasflash == true){
-					p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-					camera.setParameters(p);
-					camera.startPreview();
-					isLighOn = true;
+						p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+						camera.setParameters(p);
+						camera.startPreview();
+						isLighOn = true;
 					}
 					else{
-//						screen.setVisibility(View.VISIBLE);
+						//						screen.setVisibility(View.VISIBLE);
 						runOnUiThread(new Runnable() {
-						     @Override
-						     public void run() {
+							@Override
+							public void run() {
 
-						 		LinearLayout temp = (LinearLayout)findViewById(R.id.screen_trans);
-						 		temp.setVisibility(View.VISIBLE);
+								LinearLayout temp = (LinearLayout)findViewById(R.id.screen_trans);
+								temp.setVisibility(View.VISIBLE);
 								temp.setBackgroundColor(Color.WHITE);
 
-						    }
+							}
 						});
 
 					}
@@ -419,25 +538,25 @@ public class LightSensor extends Activity {
 					//						while((System.nanoTime() - current )  - delay*1000*1000 < 5  ){
 					//							Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 					if (hasflash == true){
-					p.setFlashMode(Parameters.FLASH_MODE_OFF);
-					camera.setParameters(p);
-					camera.stopPreview();
-					isLighOn = false;
+						p.setFlashMode(Parameters.FLASH_MODE_OFF);
+						camera.setParameters(p);
+						camera.stopPreview();
+						isLighOn = false;
 					}
 					else{
-//						screen.setVisibility(View.VISIBLE);
-//						screen.setBackgroundColor(Color.BLACK);
+						//						screen.setVisibility(View.VISIBLE);
+						//						screen.setBackgroundColor(Color.BLACK);
 						runOnUiThread(new Runnable() {
-						     @Override
-						     public void run() {
+							@Override
+							public void run() {
 
-						 		LinearLayout temp = (LinearLayout)findViewById(R.id.screen_trans);
-						 		temp.setVisibility(View.VISIBLE);
+								LinearLayout temp = (LinearLayout)findViewById(R.id.screen_trans);
+								temp.setVisibility(View.VISIBLE);
 								temp.setBackgroundColor(Color.BLACK);
 
-						    }
+							}
 						});
-				
+
 					}
 					//						}
 
@@ -668,7 +787,7 @@ public class LightSensor extends Activity {
 		if (camera != null)
 			camera.release();
 		super.onDestroy();
-		
+
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

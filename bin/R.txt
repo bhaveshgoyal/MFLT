@@ -282,7 +282,7 @@ int id action_context_bar 0x7f05001d
 int id action_menu_divider 0x7f050016
 int id action_menu_presenter 0x7f050017
 int id action_mode_close_button 0x7f050024
-int id action_settings 0x7f05005b
+int id action_settings 0x7f05005d
 int id activity_chooser_view_content 0x7f050025
 int id always 0x7f05000b
 int id beginning 0x7f050011
@@ -363,6 +363,8 @@ int id up 0x7f050021
 int id useLogo 0x7f050003
 int id view1 0x7f050057
 int id withText 0x7f05000c
+int id with_amnt 0x7f05005c
+int id withdraw_text 0x7f05005b
 int integer abc_max_action_buttons 0x7f090000
 int layout abc_action_bar_decor 0x7f030000
 int layout abc_action_bar_decor_include 0x7f030001
@@ -392,7 +394,8 @@ int layout activity_cards 0x7f030018
 int layout activity_light_sensor 0x7f030019
 int layout activity_login 0x7f03001a
 int layout adapter 0x7f03001b
-int layout support_simple_spinner_dropdown_item 0x7f03001c
+int layout design_withdraw 0x7f03001c
+int layout support_simple_spinner_dropdown_item 0x7f03001d
 int menu cards 0x7f0c0000
 int menu cards_adapter 0x7f0c0001
 int menu light_sensor 0x7f0c0002
