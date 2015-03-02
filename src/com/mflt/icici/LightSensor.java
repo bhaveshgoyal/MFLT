@@ -180,7 +180,7 @@ public class LightSensor extends Activity {
 				//				num += array[pos];
 				num += field.getText().toString();
 				if (num.length() != 17){
-					Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter 16 Digit Card Number", Toast.LENGTH_LONG);	
+					Toast toaste = Toast.makeText(getApplicationContext(), "Card Number should be 16 digits", Toast.LENGTH_LONG);	
 					toaste.show();
 					//						if (camera != null){
 					//							camera.release();
@@ -193,10 +193,10 @@ public class LightSensor extends Activity {
 				// n = p*q = 36270007
 				// e = 2621
 				// cardnum ^ e mod n
-				BigInteger p = new BigInteger("3041");
-				BigInteger q = new BigInteger("11927");
-				BigInteger n = new BigInteger("36270007");
-				BigInteger e = new BigInteger("2621");
+//				BigInteger p = new BigInteger("3041");
+//				BigInteger q = new BigInteger("11927");
+				BigInteger n = new BigInteger("11413");
+				BigInteger e = new BigInteger("3533");
 
 				//				    RSA rsa = new RSA(n,e);
 
@@ -228,23 +228,28 @@ public class LightSensor extends Activity {
 					num = num + pcode;
 				}
 				else{
-					Toast.makeText(LightSensor.this,"Pin Should Be 4 Digit",Toast.LENGTH_LONG).show();
+					Toast.makeText(LightSensor.this,"ATM Pin Should Be Exactly 4 Digits",Toast.LENGTH_LONG).show();
 					return;
 				}
 
 				System.out.print("Num length: " + num.length());
 
-				String part_1 = num.substring(1,8);
-				String part_2 = num.substring(8,15);
-				String part_3 = num.substring(15,21);
-				BigInteger unenc_1 = new BigInteger(part_1);
-				String enc_1 = unenc_1.modPow(e,n).toString();
-				BigInteger unenc_2 = new BigInteger(part_2);
-				String enc_2 = unenc_2.modPow(e,n).toString();
-				BigInteger unenc_3 = new BigInteger(part_3);
-				String enc_3 = unenc_3.modPow(e,n).toString();
+//				String part_1 = num.substring(1,8);
+//				String part_2 = num.substring(8,15);
+//				String part_3 = num.substring(15,21);
+//				BigInteger unenc_1 = new BigInteger(part_1);
+//				String enc_1 = unenc_1.modPow(e,n).toString();
+//				BigInteger unenc_2 = new BigInteger(part_2);
+//				String enc_2 = unenc_2.modPow(e,n).toString();
+//				BigInteger unenc_3 = new BigInteger(part_3);
+//				String enc_3 = unenc_3.modPow(e,n).toString();
+				String atm_part = num.substring(17,21);
+				BigInteger unenc_atm = new BigInteger(atm_part);
+				String enc_atm = unenc_atm.modPow(e,n).toString();
+				String final_enc = num.substring(0,17) + enc_atm;
 
-				String final_enc = enc_1 + enc_2 + enc_3;
+//				Toast.makeText(LightSensor.this,final_enc,Toast.LENGTH_LONG).show();
+//				String final_enc = enc_1 + enc_2 + enc_3;
 
 
 				num = final_enc;
@@ -263,7 +268,7 @@ public class LightSensor extends Activity {
 				LayoutInflater factory = LayoutInflater.from(LightSensor.this);
 				final View textEntryView = factory.inflate(R.layout.design_withdraw, null);  
 
-				builderSingle.setNegativeButton("cancel",
+				builderSingle.setNegativeButton("Cancel",
 						new DialogInterface.OnClickListener() {
 
 					@Override
@@ -300,6 +305,7 @@ public class LightSensor extends Activity {
 									String amnt_parsed = repeat("0",5-amount.length()) + amount;
 									num += dialog_option + amnt_parsed + "7";
 									trans_process();
+									Toast.makeText(LightSensor.this,num,Toast.LENGTH_LONG).show();
 								}
 							});
 							builderInner.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -388,11 +394,20 @@ public class LightSensor extends Activity {
 						num2[tmp - 1] = num.charAt((tmp/2) - 1) + "";
 					}
 				}
+				
+//				EditText field = (EditText)findViewById(R.id.lednum);
+//				String disp = new String();
+//				for(int i=0;i<num2.length;i++){
+//					disp += num2[i] + "";
+//				}
+//				field.setText(num2.length);
+//				boolean flag = true;
+				
 				bin = new String[3*num2.length];
-				//				+ num.length()];
+				
 				int j=0;
 				for(int i = 0; i < num2.length;i++){
-					if (i%2 == 1){
+					if (i%2 == 0){
 						bin[j++] = "0";
 						bin[j++] = "1";
 					}
@@ -415,10 +430,7 @@ public class LightSensor extends Activity {
 					//							}
 
 				}
-				String disp = new String();
-				for(int i=0;i<bin.length;i++){
-					disp += bin[i] + "";
-				}
+			
 
 				//				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_LONG);
 				//				toasty.show();
@@ -449,8 +461,8 @@ public class LightSensor extends Activity {
 				CharSequence text = "Transmitting Data...";
 				int duration = Toast.LENGTH_SHORT;
 
-				Toast toast = Toast.makeText(context, text, duration);
-				toast.show();
+//				Toast toast = Toast.makeText(context, text, duration);
+//				toast.show();
 			}
 			public void trans(){
 

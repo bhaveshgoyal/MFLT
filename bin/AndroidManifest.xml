@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LightSensor"
-            android:label="Secure Transaction Number"
+            android:label="Secure Transaction"
              android:screenOrientation="portrait" >
         </activity>
         <activity
