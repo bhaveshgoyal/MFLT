@@ -225,6 +225,36 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
         public static final int backgroundStacked=0x7f010030;
+        /**  Specifies whether or not to draw a circular border around the image. 
+         <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border=0x7f01006e;
+        /**  Specifies the color of the border draw around the image. (if enabled) 
+         <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_color=0x7f01006f;
+        /**  Makes the border this pixels wide. (if enabled) 
+         <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_width=0x7f010070;
         /**  A style that may be applied to Buttons placed within a
          LinearLayout with the style buttonBarStyle to form a button bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -237,6 +267,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int buttonBarStyle=0x7f010017;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int circularImageViewDefault=0x7f010076;
         /**  Specifies a layout for custom navigation. Overrides navigationMode. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -320,6 +354,14 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int expandActivityOverflowButtonDrawable=0x7f01006b;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int forwardTiltOffset=0x7f010079;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -369,6 +411,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int initialActivityCount=0x7f01006a;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int intensity=0x7f010077;
         /**  Specifies whether the theme is light, otherwise it is dark. 
          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
@@ -552,6 +602,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int queryHint=0x7f01005b;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scaledIntensity=0x7f01007a;
         /**  SearchView dropdown background 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -620,6 +678,55 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int selectableItemBackground=0x7f010019;
+        /**  Specifies whether or not to draw a selector on this view upon touch events. 
+         <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int selector=0x7f010071;
+        /**  Specifies the color of the selector draw on top of the image upon touch events. (if enabled) 
+         <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int selector_color=0x7f010072;
+        /**  Specifies the color of the selector stroke drawn around the image upon touch events. Be sure to provide some opacity. (if enabled) 
+         <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int selector_stroke_color=0x7f010073;
+        /**  Makes the selector stroke drawn around the image upon touch events this pixels wide. (if enabled) 
+         <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int selector_stroke_width=0x7f010074;
+        /**  Specifies whether or not to draw a shadow around your circular image. 
+         <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int shadow=0x7f010075;
         /**  How this item should display in the Action Bar, if present. 
          <p>Must be one or more (separated by '|') of the following constant values.</p>
 <table>
@@ -738,6 +845,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
         public static final int textColorSearchUrl=0x7f010068;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int tiltSensitivity=0x7f010078;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -1084,36 +1199,41 @@ containing a value of this type.
         public static final int backs=0x7f020057;
         public static final int bob=0x7f020058;
         public static final int boi=0x7f020059;
-        public static final int canara=0x7f02005a;
-        public static final int card_adapter=0x7f02005b;
-        public static final int dark=0x7f02005c;
-        public static final int darkpress=0x7f02005d;
-        public static final int darksel=0x7f02005e;
-        public static final int dlogo=0x7f02005f;
-        public static final int dollar=0x7f020060;
-        public static final int dollar_empty=0x7f020061;
-        public static final int dollar_empty2=0x7f020062;
-        public static final int dollarf=0x7f020063;
-        public static final int dollarf2=0x7f020064;
-        public static final int field=0x7f020065;
-        public static final int hdfc=0x7f020066;
-        public static final int ic_launcher=0x7f020067;
-        public static final int icici=0x7f020068;
-        public static final int idbi=0x7f020069;
-        public static final int keypad=0x7f02006a;
-        public static final int keypadpress=0x7f02006b;
-        public static final int keypadsel=0x7f02006c;
-        public static final int light=0x7f02006d;
-        public static final int lightpress=0x7f02006e;
-        public static final int lightsel=0x7f02006f;
-        public static final int lock=0x7f020070;
-        public static final int login_butt=0x7f020071;
-        public static final int login_press=0x7f020072;
-        public static final int logo=0x7f020073;
-        public static final int sbi=0x7f020074;
-        public static final int sel=0x7f020075;
-        public static final int setting=0x7f020076;
-        public static final int solution=0x7f020077;
+        public static final int butt=0x7f02005a;
+        public static final int butt2=0x7f02005b;
+        public static final int canara=0x7f02005c;
+        public static final int cancel=0x7f02005d;
+        public static final int card_adapter=0x7f02005e;
+        public static final int dark=0x7f02005f;
+        public static final int darkpress=0x7f020060;
+        public static final int darksel=0x7f020061;
+        public static final int dlogo=0x7f020062;
+        public static final int dollar=0x7f020063;
+        public static final int dollar_empty=0x7f020064;
+        public static final int dollar_empty2=0x7f020065;
+        public static final int dollarf=0x7f020066;
+        public static final int dollarf2=0x7f020067;
+        public static final int field=0x7f020068;
+        public static final int hdfc=0x7f020069;
+        public static final int ic_launcher=0x7f02006a;
+        public static final int icici=0x7f02006b;
+        public static final int idbi=0x7f02006c;
+        public static final int keypad=0x7f02006d;
+        public static final int keypadpress=0x7f02006e;
+        public static final int keypadsel=0x7f02006f;
+        public static final int light=0x7f020070;
+        public static final int lightpress=0x7f020071;
+        public static final int lightsel=0x7f020072;
+        public static final int lock=0x7f020073;
+        public static final int login_butt=0x7f020074;
+        public static final int login_press=0x7f020075;
+        public static final int logo=0x7f020076;
+        public static final int next=0x7f020077;
+        public static final int sbi=0x7f020078;
+        public static final int sel=0x7f020079;
+        public static final int setting=0x7f02007a;
+        public static final int solution=0x7f02007b;
+        public static final int solution_old=0x7f02007c;
     }
     public static final class id {
         public static final int action_bar=0x7f05001c;
@@ -1127,7 +1247,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f05005d;
+        public static final int action_settings=0x7f050060;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
@@ -1143,6 +1263,8 @@ containing a value of this type.
         public static final int button9=0x7f05004e;
         public static final int buttonb=0x7f050050;
         public static final int buttont=0x7f050048;
+        public static final int card_info=0x7f05005e;
+        public static final int card_num=0x7f05005d;
         public static final int cardimage=0x7f05005a;
         public static final int cardlist=0x7f05003c;
         public static final int checkbox=0x7f05002d;
@@ -1152,17 +1274,18 @@ containing a value of this type.
         public static final int dialog=0x7f05000e;
         public static final int disableHome=0x7f050008;
         public static final int dropdown=0x7f05000f;
+        public static final int edit_card=0x7f05005c;
         public static final int edit_query=0x7f050030;
         public static final int end=0x7f050013;
         public static final int expand_activities_button=0x7f050026;
         public static final int expanded_menu=0x7f05002c;
+        public static final int floating=0x7f05003d;
         public static final int home=0x7f050014;
         public static final int homeAsUp=0x7f050005;
         public static final int icon=0x7f05002a;
         public static final int ifRoom=0x7f05000a;
         public static final int image=0x7f050027;
-        public static final int leddelay=0x7f05003e;
-        public static final int lednum=0x7f05003d;
+        public static final int info=0x7f05005b;
         public static final int linearLayout1=0x7f050053;
         public static final int listMode=0x7f050001;
         public static final int list_item=0x7f050029;
@@ -1178,6 +1301,7 @@ containing a value of this type.
         public static final int pin1=0x7f050041;
         public static final int pin2=0x7f050042;
         public static final int pin3=0x7f050043;
+        public static final int pin_text=0x7f05003e;
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int putsign=0x7f050056;
@@ -1208,8 +1332,7 @@ containing a value of this type.
         public static final int useLogo=0x7f050003;
         public static final int view1=0x7f050057;
         public static final int withText=0x7f05000c;
-        public static final int with_amnt=0x7f05005c;
-        public static final int withdraw_text=0x7f05005b;
+        public static final int with_amnt=0x7f05005f;
     }
     public static final class integer {
         /**  The maximum number of action buttons that should be permitted within
@@ -1265,8 +1388,9 @@ containing a value of this type.
         public static final int activity_light_sensor=0x7f030019;
         public static final int activity_login=0x7f03001a;
         public static final int adapter=0x7f03001b;
-        public static final int design_withdraw=0x7f03001c;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001d;
+        public static final int design_card=0x7f03001c;
+        public static final int design_withdraw=0x7f03001d;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001e;
     }
     public static final class menu {
         public static final int cards=0x7f0c0000;
@@ -2256,6 +2380,192 @@ containing a value of this type.
           @attr name com.mflt.icici:initialActivityCount
         */
         public static final int ActivityChooserView_initialActivityCount = 0;
+        /**  CircularImageView for custom shape 
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #CircularImageView_border com.mflt.icici:border}</code></td><td> Specifies whether or not to draw a circular border around the image.</td></tr>
+           <tr><td><code>{@link #CircularImageView_border_color com.mflt.icici:border_color}</code></td><td> Specifies the color of the border draw around the image.</td></tr>
+           <tr><td><code>{@link #CircularImageView_border_width com.mflt.icici:border_width}</code></td><td> Makes the border this pixels wide.</td></tr>
+           <tr><td><code>{@link #CircularImageView_selector com.mflt.icici:selector}</code></td><td> Specifies whether or not to draw a selector on this view upon touch events.</td></tr>
+           <tr><td><code>{@link #CircularImageView_selector_color com.mflt.icici:selector_color}</code></td><td> Specifies the color of the selector draw on top of the image upon touch events.</td></tr>
+           <tr><td><code>{@link #CircularImageView_selector_stroke_color com.mflt.icici:selector_stroke_color}</code></td><td> Specifies the color of the selector stroke drawn around the image upon touch events.</td></tr>
+           <tr><td><code>{@link #CircularImageView_selector_stroke_width com.mflt.icici:selector_stroke_width}</code></td><td> Makes the selector stroke drawn around the image upon touch events this pixels wide.</td></tr>
+           <tr><td><code>{@link #CircularImageView_shadow com.mflt.icici:shadow}</code></td><td> Specifies whether or not to draw a shadow around your circular image.</td></tr>
+           </table>
+           @see #CircularImageView_border
+           @see #CircularImageView_border_color
+           @see #CircularImageView_border_width
+           @see #CircularImageView_selector
+           @see #CircularImageView_selector_color
+           @see #CircularImageView_selector_stroke_color
+           @see #CircularImageView_selector_stroke_width
+           @see #CircularImageView_shadow
+         */
+        public static final int[] CircularImageView = {
+            0x7f01006e, 0x7f01006f, 0x7f010070, 0x7f010071,
+            0x7f010072, 0x7f010073, 0x7f010074, 0x7f010075
+        };
+        /**
+          <p>
+          @attr description
+           Specifies whether or not to draw a circular border around the image. 
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.mflt.icici:border
+        */
+        public static final int CircularImageView_border = 0;
+        /**
+          <p>
+          @attr description
+           Specifies the color of the border draw around the image. (if enabled) 
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.mflt.icici:border_color
+        */
+        public static final int CircularImageView_border_color = 1;
+        /**
+          <p>
+          @attr description
+           Makes the border this pixels wide. (if enabled) 
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.mflt.icici:border_width
+        */
+        public static final int CircularImageView_border_width = 2;
+        /**
+          <p>
+          @attr description
+           Specifies whether or not to draw a selector on this view upon touch events. 
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.mflt.icici:selector
+        */
+        public static final int CircularImageView_selector = 3;
+        /**
+          <p>
+          @attr description
+           Specifies the color of the selector draw on top of the image upon touch events. (if enabled) 
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.mflt.icici:selector_color
+        */
+        public static final int CircularImageView_selector_color = 4;
+        /**
+          <p>
+          @attr description
+           Specifies the color of the selector stroke drawn around the image upon touch events. Be sure to provide some opacity. (if enabled) 
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.mflt.icici:selector_stroke_color
+        */
+        public static final int CircularImageView_selector_stroke_color = 5;
+        /**
+          <p>
+          @attr description
+           Makes the selector stroke drawn around the image upon touch events this pixels wide. (if enabled) 
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.mflt.icici:selector_stroke_width
+        */
+        public static final int CircularImageView_selector_stroke_width = 6;
+        /**
+          <p>
+          @attr description
+           Specifies whether or not to draw a shadow around your circular image. 
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name com.mflt.icici:shadow
+        */
+        public static final int CircularImageView_shadow = 7;
+        /** Attributes that can be used with a CircularImageViewStyle.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #CircularImageViewStyle_circularImageViewDefault com.mflt.icici:circularImageViewDefault}</code></td><td></td></tr>
+           </table>
+           @see #CircularImageViewStyle_circularImageViewDefault
+         */
+        public static final int[] CircularImageViewStyle = {
+            0x7f010076
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.mflt.icici.R.attr#circularImageViewDefault}
+          attribute's value can be found in the {@link #CircularImageViewStyle} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.mflt.icici:circularImageViewDefault
+        */
+        public static final int CircularImageViewStyle_circularImageViewDefault = 0;
         /** Attributes that can be used with a CompatTextView.
            <p>Includes the following attributes:</p>
            <table>
@@ -2715,7 +3025,7 @@ containing a value of this type.
          */
         public static final int[] MenuView = {
             0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e,
-            0x0101012f, 0x01010130, 0x01010131, 0x0101052f
+            0x0101012f, 0x01010130, 0x01010131, 0x01010435
         };
         /**
           <p>
@@ -2788,6 +3098,81 @@ containing a value of this type.
           @attr name android:windowAnimationStyle
         */
         public static final int MenuView_android_windowAnimationStyle = 0;
+        /** Attributes that can be used with a ParallaxImageView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #ParallaxImageView_forwardTiltOffset com.mflt.icici:forwardTiltOffset}</code></td><td></td></tr>
+           <tr><td><code>{@link #ParallaxImageView_intensity com.mflt.icici:intensity}</code></td><td></td></tr>
+           <tr><td><code>{@link #ParallaxImageView_scaledIntensity com.mflt.icici:scaledIntensity}</code></td><td></td></tr>
+           <tr><td><code>{@link #ParallaxImageView_tiltSensitivity com.mflt.icici:tiltSensitivity}</code></td><td></td></tr>
+           </table>
+           @see #ParallaxImageView_forwardTiltOffset
+           @see #ParallaxImageView_intensity
+           @see #ParallaxImageView_scaledIntensity
+           @see #ParallaxImageView_tiltSensitivity
+         */
+        public static final int[] ParallaxImageView = {
+            0x7f010077, 0x7f010078, 0x7f010079, 0x7f01007a
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.mflt.icici.R.attr#forwardTiltOffset}
+          attribute's value can be found in the {@link #ParallaxImageView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.mflt.icici:forwardTiltOffset
+        */
+        public static final int ParallaxImageView_forwardTiltOffset = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.mflt.icici.R.attr#intensity}
+          attribute's value can be found in the {@link #ParallaxImageView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.mflt.icici:intensity
+        */
+        public static final int ParallaxImageView_intensity = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.mflt.icici.R.attr#scaledIntensity}
+          attribute's value can be found in the {@link #ParallaxImageView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.mflt.icici:scaledIntensity
+        */
+        public static final int ParallaxImageView_scaledIntensity = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.mflt.icici.R.attr#tiltSensitivity}
+          attribute's value can be found in the {@link #ParallaxImageView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.mflt.icici:tiltSensitivity
+        */
+        public static final int ParallaxImageView_tiltSensitivity = 1;
         /** Attributes that can be used with a SearchView.
            <p>Includes the following attributes:</p>
            <table>

@@ -9,9 +9,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
@@ -48,6 +51,7 @@ public class LightSensor extends Activity {
 	ImageView pin1;
 	ImageView pin2;
 	ImageView pin3;
+	int cancel_flag = 1;
 	private String pcode="";
 	private boolean isLighOn = false;
 	String fld = new String();
@@ -72,6 +76,10 @@ public class LightSensor extends Activity {
 		super.onCreate(savedInstanceState);
 		bin = null;
 
+		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+		editor.putBoolean("Login_session", true);
+		editor.commit();
+		
 		screen = (LinearLayout)findViewById(R.id.screen_trans);
 		hasflash = getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 		//		hasflash = false;
@@ -161,8 +169,8 @@ public class LightSensor extends Activity {
 		buttonb.setOnClickListener(pinButtonHandler);
 
 		button9.setOnClickListener(pinButtonHandler);
-
-
+		
+		
 		buttont.setOnClickListener(new OnClickListener() {
 
 			final Parameters p = camera.getParameters();
@@ -171,15 +179,28 @@ public class LightSensor extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				String[] array=b.getStringArray(nos);
+				if (cancel_flag == 1)
+					{
+					cancel_flag = 0;
+					}
+				else
+					cancel_flag = 1;
+				
+				if (cancel_flag == 1){
+					trans();
+				}
+				
+				
 				int pos = b.getInt(key);
 				mind = 0;
-				EditText field = (EditText)findViewById(R.id.lednum);
+//				EditText field = (EditText)findViewById(R.id.lednum);
 				num = "" + 7;
-				//				num = "";
-				//				num += array[pos];
-				num += field.getText().toString();
-				if (num.length() != 17){
+				SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE); 
+				
+				num += prefs.getString("card_numb["+ pos + "]","");
+//				num += field.getText().toString();
+				
+				if (num.length() != 17 && prefs.getInt("clicks_card[" + pos + "]",0) == 1){
 					Toast toaste = Toast.makeText(getApplicationContext(), "Card Number should be 16 digits", Toast.LENGTH_LONG);	
 					toaste.show();
 					//						if (camera != null){
@@ -195,9 +216,18 @@ public class LightSensor extends Activity {
 				// cardnum ^ e mod n
 //				BigInteger p = new BigInteger("3041");
 //				BigInteger q = new BigInteger("11927");
-				BigInteger n = new BigInteger("11413");
-				BigInteger e = new BigInteger("3533");
+				if (prefs.getString("card_numb[" + pos + "]","").length() == 16){
+				BigInteger n = new BigInteger("10584631930058819");
+				BigInteger e = new BigInteger("236184211");
 
+				BigInteger enc_num = new BigInteger(prefs.getString("card_numb["+ pos + "]","")).modPow(e,n);
+				SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+				editor.putString("card_numb["+ pos + "]",repeat("0",17-enc_num.toString().length()) + enc_num.toString());
+				editor.commit();
+				}
+				num = "" + prefs.getString("card_numb["+ pos + "]","");
+				
+				
 				//				    RSA rsa = new RSA(n,e);
 
 				//				    int[] order = {12,3,7,5,16,14,9,1,8,13,4,11,15,10,6,2};
@@ -227,7 +257,8 @@ public class LightSensor extends Activity {
 				{
 					num = num + pcode;
 				}
-				else{
+				else
+				{
 					Toast.makeText(LightSensor.this,"ATM Pin Should Be Exactly 4 Digits",Toast.LENGTH_LONG).show();
 					return;
 				}
@@ -243,11 +274,16 @@ public class LightSensor extends Activity {
 //				String enc_2 = unenc_2.modPow(e,n).toString();
 //				BigInteger unenc_3 = new BigInteger(part_3);
 //				String enc_3 = unenc_3.modPow(e,n).toString();
-				String atm_part = num.substring(17,21);
-				BigInteger unenc_atm = new BigInteger(atm_part);
-				String enc_atm = unenc_atm.modPow(e,n).toString();
-				String final_enc = num.substring(0,17) + enc_atm;
 
+				String atm_part = num.substring(num.length() - 16 ,num.length());
+				BigInteger unenc_atm = new BigInteger(atm_part);
+				
+				BigInteger n1 = new BigInteger("11442778700763419");
+				BigInteger e1 = new BigInteger("233811181");
+				
+				String enc_atm = unenc_atm.modPow(e1,n1).toString();
+				String final_enc = "" + 7 + num.substring(0,5) + repeat("0",17 - enc_atm.toString().length()) + enc_atm;
+				System.out.println("final: " + final_enc);
 //				Toast.makeText(LightSensor.this,final_enc,Toast.LENGTH_LONG).show();
 //				String final_enc = enc_1 + enc_2 + enc_3;
 
@@ -264,6 +300,7 @@ public class LightSensor extends Activity {
 				arrayAdapter.add("Check Balance");
 				arrayAdapter.add("Change Pin");
 
+				
 
 				LayoutInflater factory = LayoutInflater.from(LightSensor.this);
 				final View textEntryView = factory.inflate(R.layout.design_withdraw, null);  
@@ -287,7 +324,7 @@ public class LightSensor extends Activity {
 								LightSensor.this);
 						if (strName.equals("Cash Withdraw")){
 							dialog_option = "1";
-
+							builderInner.setMessage("Enter Withdrawl Amount");
 							builderInner.setTitle("Cash Withdrawl");
 							builderInner.setView(textEntryView);
 							builderInner.setPositiveButton("Retrieve",
@@ -305,7 +342,6 @@ public class LightSensor extends Activity {
 									String amnt_parsed = repeat("0",5-amount.length()) + amount;
 									num += dialog_option + amnt_parsed + "7";
 									trans_process();
-									Toast.makeText(LightSensor.this,num,Toast.LENGTH_LONG).show();
 								}
 							});
 							builderInner.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -314,7 +350,7 @@ public class LightSensor extends Activity {
 								}
 							});
 						}
-						else if (strName.equals("Chack Balance")){
+						else if (strName.equals("Check Balance")){
 							dialog_option = "2";
 							dialog.dismiss();
 							String amnt_parsed = repeat("0",5-amount.length()) + amount;
@@ -396,13 +432,13 @@ public class LightSensor extends Activity {
 				}
 				
 //				EditText field = (EditText)findViewById(R.id.lednum);
-//				String disp = new String();
-//				for(int i=0;i<num2.length;i++){
-//					disp += num2[i] + "";
-//				}
+				String disp = new String();
+				for(int i=0;i<num2.length;i++){
+					disp += num2[i] + "";
+				}
 //				field.setText(num2.length);
 //				boolean flag = true;
-				
+				System.out.println("final num2:" + disp);
 				bin = new String[3*num2.length];
 				
 				int j=0;
@@ -432,43 +468,47 @@ public class LightSensor extends Activity {
 				}
 			
 
+				System.out.println("final bin:" + bin.toString());
 				//				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_LONG);
 				//				toasty.show();
 
 				timer = new Timer();
-				EditText delfield = (EditText)findViewById(R.id.leddelay);
-				Integer delay = new Integer(Integer.parseInt(delfield.getText().toString()));
-				if (delay.toString() == ""){
-					Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter Frequency for Transmission", Toast.LENGTH_LONG);	
-					toaste.show();
-					//					if (camera != null){
-					//						camera.release();
-					//					}
-					return;
-				}
-
-
+//				EditText delfield = (EditText)findViewById(R.id.leddelay);
+				int delay = 100;
+//				if (delay.toString() == ""){
+//					Toast toaste = Toast.makeText(getApplicationContext(), "Please Enter Frequency for Transmission", Toast.LENGTH_LONG);	
+//					toaste.show();
+//					//					if (camera != null){
+//					//						camera.release();
+//					//					}
+//					return;
+//				}
+				
+				System.out.println("final: " + num);
+				Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.cancel);
+				img.setBounds( 0, 0, 128, 128 );
+				buttont.setCompoundDrawables( img, null, null, null );
 				timer.scheduleAtFixedRate(new TimerTask() {
 
 					synchronized public void run() {
-
-						trans();
-
-
+						
+//						trans();
 					}}, 0, delay);
 
+					
 				Context context = getApplicationContext();
 				CharSequence text = "Transmitting Data...";
 				int duration = Toast.LENGTH_SHORT;
 
-//				Toast toast = Toast.makeText(context, text, duration);
-//				toast.show();
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
 			}
 			public void trans(){
-
-				if (mind == bin.length){
+				
+				if (mind == bin.length || cancel_flag == 1){
+					
 					if (hasflash == true){
-						if (isLighOn){
+						if (isLighOn && camera != null){
 							p.setFlashMode(Parameters.FLASH_MODE_OFF);
 							camera.setParameters(p);
 							camera.stopPreview();
@@ -506,7 +546,7 @@ public class LightSensor extends Activity {
 
 					//						while((System.nanoTime() - current ) - delay*1000*1000 < 5){
 					//							Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-					if (hasflash == true){
+					if (hasflash == true && camera != null){
 						p.setFlashMode(Parameters.FLASH_MODE_TORCH);
 						camera.setParameters(p);
 						camera.startPreview();
@@ -549,7 +589,7 @@ public class LightSensor extends Activity {
 					//						}
 					//						while((System.nanoTime() - current )  - delay*1000*1000 < 5  ){
 					//							Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-					if (hasflash == true){
+					if (hasflash == true && camera != null){
 						p.setFlashMode(Parameters.FLASH_MODE_OFF);
 						camera.setParameters(p);
 						camera.stopPreview();
@@ -798,8 +838,34 @@ public class LightSensor extends Activity {
 	public void onDestroy(){
 		if (camera != null)
 			camera.release();
+	
 		super.onDestroy();
+	}
+	
+	
+	@Override
+	public void onPause(){
+		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+		editor.putBoolean("Login_session", false);
+		editor.commit();
+		super.onPause();
 
+	}
+	@Override
+	public void onResume(){
+		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE); 
+		if (!prefs.getBoolean("Login_session", false)){
+
+			Intent i = new Intent(getApplicationContext(),com.mflt.icici.
+					LoginActivity.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			finish();
+			startActivity(i);
+		}
+		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+		editor.putBoolean("Login_session", true);
+		editor.commit();
+		super.onResume();
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

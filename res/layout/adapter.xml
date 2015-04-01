@@ -10,6 +10,20 @@
         android:layout_width="fill_parent"
         android:layout_height="100dip"
         android:contentDescription="Sample Card"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/icici" />
+    
+	<TextView
+        android:id="@+id/info"
+        android:text="ICICI Card"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dip"
+        android:layout_marginLeft="5dip"        
+         />
+	
+
 
 </RelativeLayout>
