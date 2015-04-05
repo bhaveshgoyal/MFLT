@@ -3,6 +3,7 @@ package com.mflt.icici;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.R.*;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -79,6 +80,9 @@ public class LoginActivity extends Activity {
 					}
 					else{
 						if (sharedpreferences.getAll().get(pass2).equals(loginf.getText().toString())){
+							SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+							editor.putBoolean("Login_session", true);
+							editor.commit();
 							Intent i = new Intent(getApplicationContext(),com.mflt.icici.
 									CardsActivity.class);
 							startActivity(i);
