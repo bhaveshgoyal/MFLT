@@ -1,6 +1,7 @@
 package com.mflt.icici;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,11 +34,12 @@ public class CardsActivity extends Activity {
 	ArrayList<Integer> img_list = new ArrayList<Integer>();
 	ArrayList<String> info_list = new ArrayList<String>();
 	
-	
+	int[] Imgarr;
 	String nos = new String("nos");
 	String key = new String("key");
 	Integer[] imageId = new Integer[10];
 	Timer t;
+	int idx;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -108,15 +110,17 @@ public class CardsActivity extends Activity {
 //		putsharedimg(1, cards_sel.get(1).image);
 //		putsharedimg(2, cards_sel.get(2).image);
 //		
+		int[] Imgarr = {R.drawable.icici, R.drawable.platinum, R.drawable.coral};
 		
 		Button floatb = (Button)findViewById(R.id.floating);
 		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
 		floatb.setOnClickListener(new OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
 				int size_ind = cards_sel.size();
-				cards_sel.add(size_ind,new Card("ICICI NEW",getsharednum(size_ind), R.drawable.icici));	
+				idx = new Random().nextInt(CardsActivity.this.Imgarr.length);
+				cards_sel.add(size_ind,new Card("ICICI NEW",getsharednum(size_ind), CardsActivity.this.Imgarr[idx]));	
 				
 				putsharednum(size_ind, cards_sel.get(size_ind).number);
 				putsharedimg(size_ind, cards_sel.get(size_ind).image);
@@ -136,7 +140,7 @@ public class CardsActivity extends Activity {
 		});
 		
 		for (int i = 0; i < getcardcnt(); i++) {
-			cards_sel.add(i,new Card("ICICI NEW",getsharednum(i), R.drawable.icici));
+			cards_sel.add(i,new Card("ICICI NEW",getsharednum(i), getsharedimg(i)));
 		}
 			
 		for (int i=0; i < getcardcnt(); i++) {

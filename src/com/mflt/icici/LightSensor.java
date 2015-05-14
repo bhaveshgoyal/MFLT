@@ -331,7 +331,7 @@ public class LightSensor extends Activity {
 							builderInner.setMessage("Enter Withdrawl Amount");
 							builderInner.setTitle("Cash Withdrawl");
 							builderInner.setView(textEntryView);
-							builderInner.setPositiveButton("Retrieve",
+							builderInner.setPositiveButton("Withdraw",
 									new DialogInterface.OnClickListener() {
 
 								@Override
@@ -368,7 +368,7 @@ public class LightSensor extends Activity {
 							builderInner.setMessage("Enter New PIN");
 							builderInner.setTitle("Change PIN");
 							builderInner.setView(textEntryView);
-							builderInner.setPositiveButton("Process",
+							builderInner.setPositiveButton("Change Pin",
 									new DialogInterface.OnClickListener() {
 
 								@Override
@@ -773,6 +773,8 @@ public class LightSensor extends Activity {
 				button9.setClickable(false);
 
 				button9.setTextColor(Color.GRAY);
+				// add here for buttont to be clickable  = true and some nyc color
+				//
 			}
 			else{
 
@@ -804,7 +806,9 @@ public class LightSensor extends Activity {
 				button8.setClickable(true);
 
 				button9.setTextColor(Color.WHITE);
-				button9.setClickable(true);				
+				button9.setClickable(true);
+				//add here for buttont to be not clickable and some color u may like
+				
 			}
 
 			if (pcode.length() == 0){
