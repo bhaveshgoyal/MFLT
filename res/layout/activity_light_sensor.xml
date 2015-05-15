@@ -108,9 +108,11 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="4"
             android:layout_gravity="center|fill"
+            android:gravity="bottom|center"
+            android:textSize="7sp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:drawableLeft="@drawable/solution"
-            android:drawableStart="@drawable/solution"
+            android:drawableLeft="@drawable/disable"
+            android:drawableStart="@drawable/disable"
             android:background="@drawable/keypadsel"
             />
 

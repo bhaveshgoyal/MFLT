@@ -1,5 +1,6 @@
 package com.mflt.icici;
 
+import java.awt.font.TextAttribute;
 import java.math.BigInteger;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -171,6 +172,10 @@ public class LightSensor extends Activity {
 
 		button9.setOnClickListener(pinButtonHandler);
 		
+		Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.disable);
+		buttont.setText("");
+		img.setBounds( 0, 0, 112, 112 );
+		buttont.setCompoundDrawables( img, null, null, null );
 		
 		buttont.setOnClickListener(new OnClickListener() {
 
@@ -328,7 +333,8 @@ public class LightSensor extends Activity {
 								LightSensor.this);
 						if (strName.equals("Cash Withdraw")){
 							dialog_option = "1";
-							builderInner.setMessage("Enter Withdrawl Amount");
+							Toast.makeText(LightSensor.this, "Please Enter the Amount in multiples of 100 only",Toast.LENGTH_LONG).show();
+							builderInner.setMessage("Enter Withdrawl Amount (Click Withdraw when ready)");
 							builderInner.setTitle("Cash Withdrawl");
 							builderInner.setView(textEntryView);
 							builderInner.setPositiveButton("Withdraw",
@@ -365,7 +371,7 @@ public class LightSensor extends Activity {
 						}
 						else if (strName.equals("Change Pin")){
 							dialog_option = "3";
-							builderInner.setMessage("Enter New PIN");
+							builderInner.setMessage("Enter New PIN (Click Change Pin when ready)");
 							builderInner.setTitle("Change PIN");
 							builderInner.setView(textEntryView);
 							builderInner.setPositiveButton("Change Pin",
@@ -773,6 +779,10 @@ public class LightSensor extends Activity {
 				button9.setClickable(false);
 
 				button9.setTextColor(Color.GRAY);
+				Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.solution);
+				img.setBounds( 0, 0, 112, 112 );
+				buttont.setText("Next");
+				buttont.setCompoundDrawables( img, null, null, null );
 				// add here for buttont to be clickable  = true and some nyc color
 				//
 			}
@@ -807,6 +817,11 @@ public class LightSensor extends Activity {
 
 				button9.setTextColor(Color.WHITE);
 				button9.setClickable(true);
+				
+				Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.disable);
+				buttont.setText("");
+				img.setBounds( 0, 0, 112, 112 );
+				buttont.setCompoundDrawables( img, null, null, null );
 				//add here for buttont to be not clickable and some color u may like
 				
 			}

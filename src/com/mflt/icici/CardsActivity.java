@@ -110,20 +110,23 @@ public class CardsActivity extends Activity {
 //		putsharedimg(1, cards_sel.get(1).image);
 //		putsharedimg(2, cards_sel.get(2).image);
 //		
-		int[] Imgarr = {R.drawable.icici, R.drawable.platinum, R.drawable.coral};
 		
 		Button floatb = (Button)findViewById(R.id.floating);
 		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
 		floatb.setOnClickListener(new OnClickListener() {
 			
+			Integer[] Imgarr = {R.drawable.icici, R.drawable.platinum, R.drawable.coral};
+			
 			@Override
 			public void onClick(View v) {
 				int size_ind = cards_sel.size();
-				idx = new Random().nextInt(CardsActivity.this.Imgarr.length);
-				cards_sel.add(size_ind,new Card("ICICI NEW",getsharednum(size_ind), CardsActivity.this.Imgarr[idx]));	
+				
+				idx = new Random().nextInt(Imgarr.length);
+				System.out.println("index :" + idx);
+				cards_sel.add(size_ind,new Card("ICICI NEW",getsharednum(size_ind), Imgarr[idx]));	
 				
 				putsharednum(size_ind, cards_sel.get(size_ind).number);
-				putsharedimg(size_ind, cards_sel.get(size_ind).image);
+				putsharedimg(size_ind, Imgarr[idx]);
 				putcardinfo(size_ind, "No Info Added");
 				putcardcnt();
 				
@@ -404,6 +407,8 @@ public class CardsActivity extends Activity {
 		
 		return (ret + getsharednum(indx).substring(getsharednum(indx).length() - 3, getsharednum(indx).length()));
 	}
+	
+
 	@Override
 	public void onResume(){
 		
