@@ -40,6 +40,7 @@ public class CardsActivity extends Activity {
 	Integer[] imageId = new Integer[10];
 	Timer t;
 	int idx;
+	int size_ind;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -119,7 +120,7 @@ public class CardsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				int size_ind = cards_sel.size();
+				size_ind = cards_sel.size();
 				
 				idx = new Random().nextInt(Imgarr.length);
 				System.out.println("index :" + idx);
@@ -139,6 +140,94 @@ public class CardsActivity extends Activity {
 				
 				list=(ListView)findViewById(R.id.cardlist);
 				list.setAdapter(adapter);
+			/////////////////////////////////////////////////
+			
+				AlertDialog.Builder builderSingle = new AlertDialog.Builder(
+						CardsActivity.this);
+				builderSingle.setIcon(R.drawable.ic_launcher);
+				builderSingle.setTitle("New Card Data");
+				final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+						CardsActivity.this,
+						android.R.layout.select_dialog_singlechoice);
+				arrayAdapter.add("Add Card Number");
+
+				LayoutInflater factory = LayoutInflater.from(CardsActivity.this);
+				final View textEntryView = factory.inflate(R.layout.design_card, null);  
+
+				builderSingle.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+
+				builderSingle.setAdapter(arrayAdapter,
+						new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String strName = arrayAdapter.getItem(which);
+						AlertDialog.Builder builderInner = new AlertDialog.Builder(
+								CardsActivity.this);
+						if (strName.equals("Add Card Number")){
+							builderInner.setTitle("Card Number");
+							builderInner.setMessage("Enter New Card Number");
+							TextView card_n = (TextView)textEntryView.findViewById(R.id.edit_card);
+							card_n.setVisibility(View.GONE);
+							EditText mUserText;
+							mUserText = (EditText) textEntryView.findViewById(R.id.card_info);
+							mUserText.setVisibility(View.GONE);
+							
+							builderInner.setView(textEntryView);
+							builderInner.setPositiveButton("Done",
+									new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(
+										DialogInterface dialog,
+										int which) {
+
+									EditText mUserText;
+									mUserText = (EditText) textEntryView.findViewById(R.id.card_num);
+									mUserText.setVisibility(View.VISIBLE);
+									String new_n = new String(mUserText.getText().toString());
+									if (new_n.equals(""))
+										dialog.dismiss();
+									else if (new_n.length() != 16)
+										Toast.makeText(CardsActivity.this,"Invalid Card Number",Toast.LENGTH_SHORT).show();
+									else{
+									int cap = 0;
+									for (int i = 0; i < getcardcnt(); i++) {
+										if (new_n.equals(getsharednum(i))){
+											Toast.makeText(CardsActivity.this,"Card Number already Exists",Toast.LENGTH_SHORT).show();
+											cap = 1;
+										}
+									}
+									if (cap != 1){
+										putsharednum(size_ind, new_n);
+									Toast.makeText(CardsActivity.this,"Card Number Successfully Edited",Toast.LENGTH_SHORT).show();
+									dialog.dismiss();
+									}
+									}
+									
+								}
+							});
+							builderInner.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									return;   
+								}
+							});
+						}
+						
+						builderInner.show();
+
+					}
+				});
+				builderSingle.show();				
+			
+			/////////////////////////////////////////////////
 			}
 		});
 		

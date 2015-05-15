@@ -174,7 +174,7 @@ public class LightSensor extends Activity {
 		
 		Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.disable);
 		buttont.setText("");
-		img.setBounds( 0, 0, 112, 112 );
+		img.setBounds( 0, 0, 98, 98 );
 		buttont.setCompoundDrawables( img, null, null, null );
 		
 		buttont.setOnClickListener(new OnClickListener() {
@@ -780,7 +780,7 @@ public class LightSensor extends Activity {
 
 				button9.setTextColor(Color.GRAY);
 				Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.solution);
-				img.setBounds( 0, 0, 112, 112 );
+				img.setBounds( 0, 0, 98, 98 );
 				buttont.setText("Next");
 				buttont.setCompoundDrawables( img, null, null, null );
 				// add here for buttont to be clickable  = true and some nyc color
@@ -820,7 +820,7 @@ public class LightSensor extends Activity {
 				
 				Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.disable);
 				buttont.setText("");
-				img.setBounds( 0, 0, 112, 112 );
+				img.setBounds( 0, 0, 98, 98 );
 				buttont.setCompoundDrawables( img, null, null, null );
 				//add here for buttont to be not clickable and some color u may like
 				
