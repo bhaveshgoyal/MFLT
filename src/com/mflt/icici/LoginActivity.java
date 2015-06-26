@@ -41,7 +41,7 @@ public class LoginActivity extends Activity {
 			public void run() {
 				finish();
 			}
-		}, 1000*60*4);
+		}, 1000*60*2);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		log = (Button)findViewById(R.id.sign);

@@ -1,6 +1,5 @@
 package com.mflt.icici;
 
-import java.awt.font.TextAttribute;
 import java.math.BigInteger;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,11 +52,13 @@ public class LightSensor extends Activity {
 	ImageView pin1;
 	ImageView pin2;
 	ImageView pin3;
-	int cancel_flag = 1;
+	boolean cancel = false;
+	boolean start = false;
 	private String pcode="";
+	private String pcode_backup="";
 	private boolean isLighOn = false;
 	String fld = new String();
-	Timer t;
+	Timer t, logt;
 	String num = new String();
 	String[] bin=null;
 	String tempstr = new String();
@@ -77,7 +79,14 @@ public class LightSensor extends Activity {
 
 		super.onCreate(savedInstanceState);
 		bin = null;
-		
+		logt = new Timer();
+		logt.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				finish();
+			}
+		}, 1000*60*2);
 		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
 		editor.putBoolean("Login_session", true);
 		editor.commit();
@@ -176,7 +185,24 @@ public class LightSensor extends Activity {
 		buttont.setText("");
 		img.setBounds( 0, 0, 98, 98 );
 		buttont.setCompoundDrawables( img, null, null, null );
-		
+		buttonb.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+				if (pref.getString("saved_num","") != ""){
+				SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+				
+				editor.putString("pcode_backup","");
+				editor.putString("saved_num","");
+				editor.commit();
+				Toast.makeText(LightSensor.this, "Saved Session Successfully Cleared", Toast.LENGTH_SHORT).show();
+				}
+				else
+					Toast.makeText(LightSensor.this, "No Transaction is Currently Saved", Toast.LENGTH_SHORT).show();
+				return true;
+			}
+		});
 		buttont.setOnClickListener(new OnClickListener() {
 
 			final Parameters p = camera.getParameters();
@@ -187,17 +213,30 @@ public class LightSensor extends Activity {
 			public void onClick(View arg0) {
 
 //				System.out.println("flag: " + cancel_flag);
-				if (cancel_flag == 1)
-					{
-					cancel_flag = 0;
-					}
-				else
-					cancel_flag = 1;
-				
-				if (cancel_flag == 1){
+
+				if (start == true){
+					cancel = true;
 					trans();
 				}
 				
+				SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+				
+				if (pref.getString("saved_num", "") != "" && start == false)
+				{
+					if (pcode.length() == 0)
+						Toast.makeText(LightSensor.this, "Please Input Pin", Toast.LENGTH_SHORT).show();
+					else{
+						pcode_backup = pref.getString("pcode_backup","");
+						if (pcode.equals(pcode_backup)){
+					start = true;
+					num = pref.getString("saved_num","");
+					trans_process();
+					}
+						else
+							Toast.makeText(LightSensor.this, "Input Pin Doesn't Match With Saved Session. Either Clear The Existing Session or Input the Correct Pin", Toast.LENGTH_LONG).show();
+					}
+				}
+				else {
 				int pos = b.getInt(key);
 				mind = 0;
 //				EditText field = (EditText)findViewById(R.id.lednum);
@@ -263,6 +302,9 @@ public class LightSensor extends Activity {
 
 				if (pcode.length() == 4)
 				{
+					SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+					editor.putString("pcode_backup",pcode);
+					editor.commit();
 					num = num + pcode;
 				}
 				else
@@ -318,7 +360,7 @@ public class LightSensor extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						cancel_flag = 1;
+						start = false;
 						dialog.dismiss();
 					}
 				});
@@ -337,7 +379,7 @@ public class LightSensor extends Activity {
 							builderInner.setMessage("Enter Withdrawl Amount (Click Withdraw when ready)");
 							builderInner.setTitle("Cash Withdrawl");
 							builderInner.setView(textEntryView);
-							builderInner.setPositiveButton("Withdraw",
+							builderInner.setPositiveButton("Withdraw Now",
 									new DialogInterface.OnClickListener() {
 
 								@Override
@@ -351,12 +393,62 @@ public class LightSensor extends Activity {
 									dialog.dismiss();
 									String amnt_parsed = repeat("0",5-amount.length()) + amount;
 									num += dialog_option + amnt_parsed + "7";
+									start = true;
+								
 									trans_process();
 								}
 							});
-							builderInner.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+							builderInner.setNegativeButton("Save For Later", new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog, int which) {
-									cancel_flag = 1;
+									SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+									editor.putString("saved_num",num);
+									editor.commit();
+									pcode = "";
+									pin0 = (ImageView)findViewById(R.id.pin0);
+									pin0.setImageResource(R.drawable.dollar_empty2);
+									pin1 = (ImageView)findViewById(R.id.pin1);
+									pin1.setImageResource(R.drawable.dollar_empty2);
+									pin2 = (ImageView)findViewById(R.id.pin2);
+									pin2.setImageResource(R.drawable.dollar_empty2);
+									pin3 = (ImageView)findViewById(R.id.pin3);
+									pin3.setImageResource(R.drawable.dollar_empty2);
+									button0.setTextColor(Color.WHITE);
+									button0.setClickable(true);
+
+									button1.setTextColor(Color.WHITE);
+									button1.setClickable(true);
+
+									button2.setTextColor(Color.WHITE);
+									button2.setClickable(true);
+
+									button3.setTextColor(Color.WHITE);
+									button3.setClickable(true);
+
+									button4.setTextColor(Color.WHITE);
+									button4.setClickable(true);
+
+									button5.setTextColor(Color.WHITE);
+									button5.setClickable(true);
+
+									button6.setTextColor(Color.WHITE);
+									button6.setClickable(true);
+
+									button7.setTextColor(Color.WHITE);
+									button7.setClickable(true);
+
+									button8.setTextColor(Color.WHITE);
+									button8.setClickable(true);
+
+									button9.setTextColor(Color.WHITE);
+									button9.setClickable(true);
+									
+									Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.disable);
+									buttont.setText("");
+									img.setBounds( 0, 0, 98, 98 );
+									buttont.setCompoundDrawables( img, null, null, null );
+
+									Toast.makeText(LightSensor.this, "Current Session Saved", Toast.LENGTH_SHORT).show();
+									start = false;
 									return;   
 								}
 							});
@@ -367,6 +459,8 @@ public class LightSensor extends Activity {
 							dialog.dismiss();
 							String amnt_parsed = repeat("0",5-amount.length()) + amount;
 							num += dialog_option + amnt_parsed + "7";
+							start = true;
+						
 							trans_process();
 						}
 						else if (strName.equals("Change Pin")){
@@ -389,6 +483,8 @@ public class LightSensor extends Activity {
 									dialog.dismiss();
 //									String pin_parsed = repeat("0",5-amount.length()) + amount;
 									num += dialog_option + newpin + "7";
+									start = true;
+								
 									trans_process();
 									}
 									else{
@@ -398,7 +494,7 @@ public class LightSensor extends Activity {
 							});
 							builderInner.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog, int which) {
-									cancel_flag = 1;
+									start = false;
 									return;   
 								}
 							});
@@ -461,6 +557,7 @@ public class LightSensor extends Activity {
 				//				bin[1] ="0";
 				//				bin[2] = "0";
 				//				bin[3] ="1";
+				}
 			}
 
 			public void trans_process(){
@@ -548,7 +645,7 @@ public class LightSensor extends Activity {
 			}
 			public void trans(){
 				
-				if (mind == bin.length || cancel_flag == 1){
+				if (mind == bin.length || cancel == true){
 					
 					if (hasflash == true){
 						if (isLighOn && camera != null){
@@ -557,7 +654,7 @@ public class LightSensor extends Activity {
 							camera.stopPreview();
 							isLighOn = false;
 						}
-						if (camera != null){
+						if (camera != null && cancel == false){
 							camera.release();
 
 						}
@@ -574,8 +671,13 @@ public class LightSensor extends Activity {
 						});
 						//						screen.setVisibility(View.GONE);
 					}
-
-
+					SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+					
+					editor.putString("pcode_backup","");
+					editor.putString("saved_num","");
+					editor.commit();
+					start = false;
+					cancel = false;
 					System.exit(0);
 				}
 				//				for (int i=0;i<bin.length;i++) {
@@ -893,15 +995,18 @@ public class LightSensor extends Activity {
 
 	@Override
 	public void onDestroy(){
+		
 		if (camera != null)
 			camera.release();
-	
+		
 		super.onDestroy();
+
 	}
 	
 	
 	@Override
 	public void onPause(){
+
 		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
 		editor.putBoolean("Login_session", false);
 		editor.commit();
@@ -910,6 +1015,8 @@ public class LightSensor extends Activity {
 	}
 	@Override
 	public void onResume(){
+		
+			
 		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE); 
 		if (!prefs.getBoolean("Login_session", false)){
 
@@ -923,6 +1030,7 @@ public class LightSensor extends Activity {
 		editor.putBoolean("Login_session", true);
 		editor.commit();
 		super.onResume();
+		
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

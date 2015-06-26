@@ -60,7 +60,7 @@ public class CardsActivity extends Activity {
 			public void run() {
 				finish();
 			}
-		}, 1000*60*4);
+		}, 1000*60*2);
 		
 		
 		/*floatbut = (Button)findViewById(R.id.floating);
@@ -114,6 +114,59 @@ public class CardsActivity extends Activity {
 		
 		Button floatb = (Button)findViewById(R.id.floating);
 		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+
+		
+		for (int i = 0; i < getcardcnt(); i++) {
+			cards_sel.add(i,new Card("ICICI NEW",getsharednum(i), getsharedimg(i)));
+		}
+			
+		for (int i=0; i < getcardcnt(); i++) {
+			web_list.add(i,getsharednum(i));
+			img_list.add(i,getsharedimg(i));
+			info_list.add(i, getcardinfo(i));
+		}
+		
+//		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE); 
+//		int sortclicks_i;
+//		int sortclicks_j;
+//		for (int i = 0; i < cards.length; i++) {
+//			
+//			sortclicks_i = prefs.getInt("clicks_card["+ i+"]", 0);
+//			
+//			for (int j = i+1; j < cards.length; j++) {
+//				sortclicks_j = prefs.getInt("clicks_card["+ j+"]", 0);
+//				if (sortclicks_j < sortclicks_i){
+//					String temp = web[j];
+//					web[j] = web[i];
+//					web[i] = temp;
+//					
+//					int temp2 = imageId[j];
+//					imageId[j] = imageId[i];
+//					imageId[i] = temp2;
+//				}
+//				
+//			}
+//			
+//		}
+//		Integer[] imageId = {
+//				R.drawable.icici,
+//				R.drawable.hdfc,
+//				R.drawable.idbi,
+//				R.drawable.canara,
+//				R.drawable.bob,
+//				R.drawable.boi,
+//		};
+		
+
+		System.out.println("length: " + web_list.size());
+		CardsAdapter adapter = new	
+				CardsAdapter(CardsActivity.this, web_list, img_list,info_list);
+		
+		
+		list=(ListView)findViewById(R.id.cardlist);
+//	
+		list.setAdapter(adapter);
+		
 		floatb.setOnClickListener(new OnClickListener() {
 			
 			Integer[] Imgarr = {R.drawable.icici, R.drawable.platinum, R.drawable.coral};
@@ -231,56 +284,6 @@ public class CardsActivity extends Activity {
 			}
 		});
 		
-		for (int i = 0; i < getcardcnt(); i++) {
-			cards_sel.add(i,new Card("ICICI NEW",getsharednum(i), getsharedimg(i)));
-		}
-			
-		for (int i=0; i < getcardcnt(); i++) {
-			web_list.add(i,getsharednum(i));
-			img_list.add(i,getsharedimg(i));
-			info_list.add(i, getcardinfo(i));
-		}
-		
-//		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE); 
-//		int sortclicks_i;
-//		int sortclicks_j;
-//		for (int i = 0; i < cards.length; i++) {
-//			
-//			sortclicks_i = prefs.getInt("clicks_card["+ i+"]", 0);
-//			
-//			for (int j = i+1; j < cards.length; j++) {
-//				sortclicks_j = prefs.getInt("clicks_card["+ j+"]", 0);
-//				if (sortclicks_j < sortclicks_i){
-//					String temp = web[j];
-//					web[j] = web[i];
-//					web[i] = temp;
-//					
-//					int temp2 = imageId[j];
-//					imageId[j] = imageId[i];
-//					imageId[i] = temp2;
-//				}
-//				
-//			}
-//			
-//		}
-//		Integer[] imageId = {
-//				R.drawable.icici,
-//				R.drawable.hdfc,
-//				R.drawable.idbi,
-//				R.drawable.canara,
-//				R.drawable.bob,
-//				R.drawable.boi,
-//		};
-		
-
-		System.out.println("length: " + web_list.size());
-		CardsAdapter adapter = new	
-				CardsAdapter(CardsActivity.this, web_list, img_list,info_list);
-		
-		
-		list=(ListView)findViewById(R.id.cardlist);
-//	
-		list.setAdapter(adapter);
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -325,7 +328,7 @@ public class CardsActivity extends Activity {
 				arrayAdapter.add("View Card Number");
 				arrayAdapter.add("Edit Card Number");
 				arrayAdapter.add("Card Info");
-
+				arrayAdapter.add("Delete Card");
 
 				LayoutInflater factory = LayoutInflater.from(CardsActivity.this);
 				final View textEntryView = factory.inflate(R.layout.design_card, null);  
@@ -418,6 +421,51 @@ public class CardsActivity extends Activity {
 							});
 
 						}
+
+						else if (strName.equals("Delete Card")){
+							builderInner.setTitle("Confirm Delete");
+							builderInner.setMessage("Are you Sure you want to Remove the Card ?");
+							builderInner.setPositiveButton("Delete",
+									new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(
+										DialogInterface dialog,
+										int which) {
+									
+									removesharednum(pos);
+									removesharedimg(pos);
+									removecardinfo(pos);
+									removecardcnt();
+									
+									info_list.remove(pos);
+									web_list.remove(pos);
+									img_list.remove(pos);
+									cards_sel.remove(pos);
+									SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+									 editor.remove("clicks_card["+ pos+"]");
+									 editor.commit();
+									
+									CardsAdapter adapter = new	
+											CardsAdapter(CardsActivity.this, web_list, img_list, info_list);
+									
+									list=(ListView)findViewById(R.id.cardlist);
+									list.setAdapter(adapter);
+									Toast.makeText(CardsActivity.this, "Card Successfully Removed", Toast.LENGTH_SHORT).show();
+									dialog.dismiss();
+									
+									
+								}
+							});
+
+							builderInner.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									return;   
+								}
+							});
+
+						}
+
 						else if (strName.equals("Card Info")){
 							
 							builderInner.setTitle("Your Card Info");
@@ -521,8 +569,10 @@ public class CardsActivity extends Activity {
 		int sortclicks_j;
 
 		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE); 
+		System.out.println("0 : " + prefs.getInt("clicks_card[0]", 0));
+		System.out.println("1:" + prefs.getInt("clicks_card[1]", 0));
+		System.out.println("count: " + getcardcnt());
 		for (int i = 0; i < getcardcnt(); i++) {
-			
 			sortclicks_i = prefs.getInt("clicks_card["+ i+"]", 0);
 			
 			for (int j = i+1; j < getcardcnt(); j++) {
@@ -533,7 +583,7 @@ public class CardsActivity extends Activity {
 					web_list.set(j, web_list.get(i));
 					web_list.set(i, temp);
 					
-					int temp2 = img_list.get(j);
+					Integer temp2 = img_list.get(j);
 					img_list.set(j, img_list.get(i));
 					img_list.set(i, temp2);
 					
@@ -547,15 +597,15 @@ public class CardsActivity extends Activity {
 					cards_sel.set(i, temp3);
 					
 					String tmpnum = getsharednum(j);
-					putsharednum(i, getsharednum(i));
+					putsharednum(j, getsharednum(i));
 					putsharednum(i, tmpnum);
 
 					Integer tmpimg = getsharedimg(j);
-					putsharedimg(i, getsharedimg(i));
+					putsharedimg(j, getsharedimg(i));
 					putsharedimg(i, tmpimg);
 
 					String tmpinfo = getcardinfo(j);
-					putcardinfo(i, getcardinfo(i));
+					putcardinfo(j, getcardinfo(i));
 					putcardinfo(i, tmpinfo);
 					
 					SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
@@ -595,6 +645,11 @@ public class CardsActivity extends Activity {
 		editor.putString("card_numb["+idx+"]", num);
 		editor.commit();
 	}
+	public void removesharednum(int idx){
+		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+		editor.remove("card_numb["+idx+"]");
+		editor.commit();
+	}
 	
 	public String getsharednum(int idx){
 		SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
@@ -607,11 +662,21 @@ public class CardsActivity extends Activity {
 		editor.putInt("card_img["+idx+"]", img);
 		editor.commit();
 	}
-	
+	public void removesharedimg(int idx){
+		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+		editor.remove("card_img["+idx+"]");
+		editor.commit();
+	}
 	public void putcardcnt(){
 		
 		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
 		editor.putInt("card_count", getcardcnt() + 1);
+		editor.commit();
+	}
+	public void removecardcnt(){
+		
+		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+		editor.putInt("card_count", getcardcnt() - 1);
 		editor.commit();
 	}
 	
@@ -627,7 +692,12 @@ public class CardsActivity extends Activity {
 		editor.putString("card_info[" + idx + "]", info);
 		editor.commit();
 	}
-	
+	public void removecardinfo(int idx){
+		
+		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+		editor.remove("card_info[" + idx + "]");
+		editor.commit();
+	}
 	public String getcardinfo(int idx){
 		
 		SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);

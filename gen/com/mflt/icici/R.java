@@ -1228,16 +1228,17 @@ containing a value of this type.
         public static final int lightpress=0x7f020074;
         public static final int lightsel=0x7f020075;
         public static final int lock=0x7f020076;
-        public static final int login_butt=0x7f020077;
-        public static final int login_press=0x7f020078;
-        public static final int logo=0x7f020079;
-        public static final int next=0x7f02007a;
-        public static final int platinum=0x7f02007b;
-        public static final int sbi=0x7f02007c;
-        public static final int sel=0x7f02007d;
-        public static final int setting=0x7f02007e;
-        public static final int solution=0x7f02007f;
-        public static final int solution_old=0x7f020080;
+        public static final int log2o=0x7f020077;
+        public static final int login_butt=0x7f020078;
+        public static final int login_press=0x7f020079;
+        public static final int logo=0x7f02007a;
+        public static final int next=0x7f02007b;
+        public static final int platinum=0x7f02007c;
+        public static final int sbi=0x7f02007d;
+        public static final int sel=0x7f02007e;
+        public static final int setting=0x7f02007f;
+        public static final int solution=0x7f020080;
+        public static final int solution_old=0x7f020081;
     }
     public static final class id {
         public static final int action_bar=0x7f05001c;
