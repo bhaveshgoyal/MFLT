@@ -1,18 +1,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#ef374953"
+    android:background="#f6f6f6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="3dip"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="3dip"
     tools:context="com.mflt.icici.CardsActivity" >
 
     <ListView
+        
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:scrollbars="none"
         android:id="@+id/cardlist"
         android:layout_width="match_parent"
@@ -21,23 +20,57 @@
         android:dividerHeight="10dp" >
     </ListView>
     
-    
-  <!--   <com.mflt.icici.CircularImageView
-        		android:layout_gravity="right"
-                android:id="@+id/floating"
-                android:layout_width="200dp"
-                android:layout_height="70dp"
-                android:src="@drawable/butt2"   
-                app:border_color="#FFFFFF"
-                app:border_width="4dp"
-                app:shadow="true" />-->
-   
-   
-    <android.support.design.widget.FloatingActionButton
-         android:id="@+id/floating"
+      <!--  <android.support.design.widget.FloatingActionButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="bottom|right"
+              android:layout_margin="16dp"
+              android:src="@drawable/ic_done"
+              app:layout_anchor="@id/lvToDoList"
+              app:layout_anchorGravity="bottom|right|end" />
+                -->
+  <!--  <Button
+       android:id="@+id/floating"
+       android:layout_gravity="end|bottom"
+       android:layout_marginBottom="@dimen/activity_horizontal_margin"
+       android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:layout_width="85dp"
+                android:layout_height="60dp"
+                android:background="@drawable/butt2"
+               />
+               
+               
+   -->
+  
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:clickable="true"/>
+        android:layout_gravity="bottom"       
+        >
+        
+      <Button
+       android:id="@+id/saved_floating"
+       android:layout_alignParentRight="true"
+       android:layout_marginBottom="7dp"
+       android:layout_marginRight="@dimen/activity_horizontal_margin"
+       android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:background="@drawable/saved_butt"
+               />  
+     
+   <Button android:id="@+id/floating" 
+       
+       android:layout_below="@+id/saved_floating"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="12dip"
+       
+       android:layout_marginRight="12dip"
+          android:textColor="#EFEFEF" 
+          android:background="@drawable/buy" 
+          android:layout_gravity="center|bottom" 
+          android:text="ADD CARD" />
+    
+     </RelativeLayout>
 
 </FrameLayout>

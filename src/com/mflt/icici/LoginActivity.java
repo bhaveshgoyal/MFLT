@@ -12,6 +12,7 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +44,31 @@ public class LoginActivity extends Activity {
 			}
 		}, 1000*60*2);
 		super.onCreate(savedInstanceState);
+		
+		
 		setContentView(R.layout.activity_login);
+		
+		SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+		if (!pref.getString("saved_num", "").equals("")){
+			int time_to_clean = pref.getInt("rem_time", 0);
+			
+			new CountDownTimer(60000 - time_to_clean, 1000) {
+			
+			SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+			
+		     public void onTick(long millisUntilFinished) {
+		    	 editor.putInt("rem_time", (int)(millisUntilFinished / 1000));
+		    	 editor.commit();
+		     }
+
+		     public void onFinish() {
+		    		editor.putString("saved_num", "");
+					editor.putString("saved_amnt","");
+					editor.commit();
+		     }
+		  }.start();
+		}
+
 		log = (Button)findViewById(R.id.sign);
 		log.setTextColor(Color.WHITE);
 		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.otf");

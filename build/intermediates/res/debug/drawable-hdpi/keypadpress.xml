@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="0dp" />
+    <gradient android:startColor="#03A887"
+        	android:centerColor="#03A887"
+        	android:endColor="#03A887"/>
+	</shape><!-- From: file:/home/bhavesh/ICICI/res/drawable-hdpi/keypadpress.xml -->

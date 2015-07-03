@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -48,6 +50,8 @@ public class LightSensor extends Activity {
 	Button button9;
 	Button buttonb;
 	Button buttont;
+
+	Button saved_float;
 	ImageView pin0;
 	ImageView pin1;
 	ImageView pin2;
@@ -65,7 +69,7 @@ public class LightSensor extends Activity {
 	Timer timer;
 	Bundle b;
 	String nos = new String("nos");
-	static Camera camera;
+	static Camera camera=null;
 	static boolean hasflash = false;
 	String key = new String("key");
 	String amount = new String("0");
@@ -203,6 +207,57 @@ public class LightSensor extends Activity {
 				return true;
 			}
 		});
+		
+		SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+		
+		
+		if (!pref.getString("saved_num", "").equals("") && !b.getBoolean("from_saved",false)){
+			
+			
+			int time_to_clean = pref.getInt("rem_time", 0);
+			
+			new CountDownTimer(60000 - time_to_clean, 1000) {
+			
+			SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+			
+		     public void onTick(long millisUntilFinished) {
+		    	 editor.putInt("rem_time", (int)(millisUntilFinished / 1000));
+		    	 editor.commit();
+		     }
+
+		     public void onFinish() {
+		    	editor.putString("saved_num", "");
+				editor.putString("saved_amnt","");
+				editor.commit();
+		     }
+		  }.start();
+		}
+		
+		if (b.getBoolean("from_saved",false) && start == false)
+		{
+			int pos = b.getInt(key);
+			String show_num = "";
+			String shared_num = pref.getString("card_numb[" + pos + "]","");
+			String save_amnt = pref.getString("saved_amnt","");
+			String save_info = pref.getString("card_info[" + pos + "]","");
+			
+			for (int i = 0; i < shared_num.length() - 3; i++) {
+				show_num += "*";
+			}
+			show_num += pref.getString("card_numb_last3[" + pos + "]","");
+			
+			TextView saved_num = (TextView)findViewById(R.id.card_last3_saved);
+			saved_num.setVisibility(View.VISIBLE);
+			saved_num.setText("From: "  + show_num);
+			
+			TextView saved_amnt = (TextView)findViewById(R.id.amnt_saved);
+			saved_amnt.setVisibility(View.VISIBLE);
+			saved_amnt.setText("Amount: "  + save_amnt);
+			
+			TextView saved_info = (TextView)findViewById(R.id.info_saved);
+			saved_info.setVisibility(View.VISIBLE);
+			saved_info.setText("Card Info: "  + save_info);
+		}
 		buttont.setOnClickListener(new OnClickListener() {
 
 			final Parameters p = camera.getParameters();
@@ -221,8 +276,9 @@ public class LightSensor extends Activity {
 				
 				SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
 				
-				if (pref.getString("saved_num", "") != "" && start == false)
+				if (b.getBoolean("from_saved",false) && start == false)
 				{
+					
 					if (pcode.length() == 0)
 						Toast.makeText(LightSensor.this, "Please Input Pin", Toast.LENGTH_SHORT).show();
 					else{
@@ -233,7 +289,7 @@ public class LightSensor extends Activity {
 					trans_process();
 					}
 						else
-							Toast.makeText(LightSensor.this, "Input Pin Doesn't Match With Saved Session. Either Clear The Existing Session or Input the Correct Pin", Toast.LENGTH_LONG).show();
+							Toast.makeText(LightSensor.this, "Input Pin Doesn't Match With One in Saved Session.", Toast.LENGTH_LONG).show();
 					}
 				}
 				else {
@@ -389,6 +445,11 @@ public class LightSensor extends Activity {
 
 									EditText mUserText;
 									mUserText = (EditText) textEntryView.findViewById(R.id.with_amnt);
+									if ( Integer.parseInt(mUserText.getText().toString()) % 100 != 0 ){
+										Toast.makeText(LightSensor.this, "Amount should be in multiples of 100 only", Toast.LENGTH_SHORT).show();
+										return;
+									}
+									else {
 									amount = mUserText.getText().toString();
 									dialog.dismiss();
 									String amnt_parsed = repeat("0",5-amount.length()) + amount;
@@ -396,12 +457,20 @@ public class LightSensor extends Activity {
 									start = true;
 								
 									trans_process();
+									}
 								}
 							});
 							builderInner.setNegativeButton("Save For Later", new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog, int which) {
+									EditText mUserText;
+									mUserText = (EditText) textEntryView.findViewById(R.id.with_amnt);
+									if ( Integer.parseInt(mUserText.getText().toString()) % 100 != 0 ){
+										Toast.makeText(LightSensor.this, "Amount should be in multiples of 100 only", Toast.LENGTH_SHORT).show();
+									}
+									else{
 									SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
-									editor.putString("saved_num",num);
+									editor.putString("saved_num", num);
+									editor.putString("saved_amnt",	mUserText.getText().toString());
 									editor.commit();
 									pcode = "";
 									pin0 = (ImageView)findViewById(R.id.pin0);
@@ -448,8 +517,14 @@ public class LightSensor extends Activity {
 									buttont.setCompoundDrawables( img, null, null, null );
 
 									Toast.makeText(LightSensor.this, "Current Session Saved", Toast.LENGTH_SHORT).show();
+									
 									start = false;
-									return;   
+									
+
+									Intent i = new Intent(LightSensor.this,com.mflt.icici.CardsActivity.class);
+									startActivity(i);	
+									LightSensor.this.finish();
+									}
 								}
 							});
 						}
@@ -627,7 +702,8 @@ public class LightSensor extends Activity {
 				
 				System.out.println("final: " + num);
 				Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.cancel);
-				img.setBounds( 0, 0, 128, 128 );
+				img.setBounds( 0, 0, 98, 98 );
+				buttont.setText("");
 				buttont.setCompoundDrawables( img, null, null, null );
 				timer.scheduleAtFixedRate(new TimerTask() {
 
@@ -671,11 +747,11 @@ public class LightSensor extends Activity {
 						});
 						//						screen.setVisibility(View.GONE);
 					}
-					SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
-					
-					editor.putString("pcode_backup","");
-					editor.putString("saved_num","");
-					editor.commit();
+//					SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+//					
+//					editor.putString("pcode_backup","");
+//					editor.putString("saved_num","");
+//					editor.commit();
 					start = false;
 					cancel = false;
 					System.exit(0);
@@ -996,9 +1072,31 @@ public class LightSensor extends Activity {
 	@Override
 	public void onDestroy(){
 		
-		if (camera != null)
+		if (camera != null){
+			if (hasflash == true){
+				if (isLighOn && camera != null){
+					Parameters p = camera.getParameters();
+					p.setFlashMode(Parameters.FLASH_MODE_OFF);
+					camera.setParameters(p);
+					camera.stopPreview();
+					isLighOn = false;
+				}
+			}
+			else{
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+
+						LinearLayout temp = (LinearLayout)findViewById(R.id.screen_trans);
+						temp.setVisibility(View.GONE);
+
+					}
+				});
+				//						screen.setVisibility(View.GONE);
+			}
+			
 			camera.release();
-		
+		}
 		super.onDestroy();
 
 	}

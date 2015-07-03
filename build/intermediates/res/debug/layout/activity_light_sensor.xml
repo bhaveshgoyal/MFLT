@@ -1,0 +1,230 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mflt.icici.LightSensor">
+    
+    
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f6f6f6"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+<!--     <EditText
+        android:id="@+id/lednum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Card Number"
+        android:inputType="number" />
+ -->
+ <!--     <EditText
+        android:id="@+id/leddelay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Delay"
+        android:inputType="number" />
+-->
+    <TextView 
+        android:id="@+id/pin_text"
+        android:text="INPUT ATM PIN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+      
+    <GridLayout
+        android:id="@+id/pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pin_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dip"
+        android:columnCount="4"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/pin0"
+            android:background="@drawable/dollar_empty2"
+            android:layout_marginRight="15dip"
+    
+            android:src="@drawable/dollar_empty2" />
+
+        <ImageButton
+            android:layout_marginRight="15dip"
+            android:id="@+id/pin1"
+            android:background="@drawable/dollar_empty2"
+     
+            android:src="@drawable/dollar_empty2" />
+        
+        <ImageButton
+            android:layout_marginRight="15dip"
+            android:id="@+id/pin2"
+            android:background="@drawable/dollar_empty2"
+
+            android:src="@drawable/dollar_empty2" />
+
+        <ImageButton
+            android:id="@+id/pin3"
+            android:background="@drawable/dollar_empty2"
+      
+            android:src="@drawable/dollar_empty2" />
+    </GridLayout>
+	
+	<TextView 
+        android:id="@+id/card_last3_saved"
+        android:text="Card Number"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/pin"
+        android:visibility="gone"
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+	
+	<TextView 
+        android:id="@+id/amnt_saved"
+        android:text="Amount"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/card_last3_saved"
+        android:layout_marginTop="10dip"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+	
+	<TextView 
+        android:id="@+id/info_saved"
+        android:text="Info"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/amnt_saved"
+        android:visibility="gone"
+        android:layout_marginTop="10dip"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
+    
+    <GridLayout
+        android:id="@+id/pad"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:columnCount="4"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/lightsel"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/lightsel"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_columnSpan="1"
+            android:background="@drawable/darksel"
+            android:text="3" />
+
+        <Button
+            android:id="@+id/buttont"
+            android:layout_columnSpan="1"
+            android:layout_rowSpan="4"
+            android:layout_gravity="center|fill"
+            android:gravity="bottom|center"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:drawableLeft="@drawable/disable"
+            android:drawableStart="@drawable/disable"
+            android:background="@drawable/keypadsel"
+            />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
+            android:text="4" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/lightsel"
+            android:text="5" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
+            android:text="6" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
+            android:text="7" />
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/lightsel"
+            android:text="8" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
+            android:text="9" />
+
+        <Button
+            android:id="@+id/button0"
+            android:layout_columnSpan="1"
+            android:layout_gravity="fill"
+            android:background="@drawable/darksel"
+            android:text="0" />
+
+        <Button
+            android:id="@+id/buttonb"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:drawableRight="@drawable/backs"
+            android:paddingRight="8dip"
+            android:text="Clear"
+            android:background="@drawable/lightsel" />
+    </GridLayout>
+
+</RelativeLayout>
+
+    <LinearLayout android:id="@+id/screen_trans"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:visibility="gone"></LinearLayout>
+
+</FrameLayout><!-- From: file:/home/bhavesh/ICICI/res/layout/activity_light_sensor.xml -->

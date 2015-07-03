@@ -19,13 +19,13 @@
         android:hint="Card Number"
         android:inputType="number" />
  -->
-<!--     <EditText
+ <!--     <EditText
         android:id="@+id/leddelay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Delay"
         android:inputType="number" />
- -->
+-->
     <TextView 
         android:id="@+id/pin_text"
         android:text="INPUT ATM PIN"
@@ -35,6 +35,7 @@
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
+      
     <GridLayout
         android:id="@+id/pin"
         android:layout_width="wrap_content"
@@ -72,7 +73,48 @@
       
             android:src="@drawable/dollar_empty2" />
     </GridLayout>
-
+	
+	<TextView 
+        android:id="@+id/card_last3_saved"
+        android:text="Card Number"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/pin"
+        android:visibility="gone"
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+	
+	<TextView 
+        android:id="@+id/amnt_saved"
+        android:text="Amount"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/card_last3_saved"
+        android:layout_marginTop="10dip"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+	
+	<TextView 
+        android:id="@+id/info_saved"
+        android:text="Info"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/amnt_saved"
+        android:visibility="gone"
+        android:layout_marginTop="10dip"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
     
     <GridLayout
         android:id="@+id/pad"

@@ -10,7 +10,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +43,8 @@ public class CardsActivity extends Activity {
 	Timer t;
 	int idx;
 	int size_ind;
+	int rem_time;
+	Button saved_float;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -111,10 +115,38 @@ public class CardsActivity extends Activity {
 //		putsharedimg(1, cards_sel.get(1).image);
 //		putsharedimg(2, cards_sel.get(2).image);
 //		
-		
-		Button floatb = (Button)findViewById(R.id.floating);
 		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+		
+		
+		saved_float = (Button)findViewById(R.id.saved_floating);
+		
+		
+		if (!prefs.getString("saved_num", "").equals("")){
+			
+			int time_to_clean = prefs.getInt("rem_time", 0);
+			
+			new CountDownTimer(60000 - time_to_clean, 1000) {
+			
+			SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
+			
+		     public void onTick(long millisUntilFinished) {
+		    	 editor.putInt("rem_time", (int)(millisUntilFinished / 1000));
+		    	 editor.commit();
+		     }
 
+		     public void onFinish() {
+		    	 saved_float.setVisibility(View.GONE);
+		    		editor.putString("saved_num", "");
+					editor.putString("saved_amnt","");
+					editor.commit();
+		     }
+		  }.start();
+		}
+		Button floatb = (Button)findViewById(R.id.floating);
+		if (prefs.getString("saved_num", "").equals("")){
+			saved_float.setVisibility(View.GONE);
+		}
+		
 		
 		for (int i = 0; i < getcardcnt(); i++) {
 			cards_sel.add(i,new Card("ICICI NEW",getsharednum(i), getsharedimg(i)));
@@ -166,6 +198,23 @@ public class CardsActivity extends Activity {
 		list=(ListView)findViewById(R.id.cardlist);
 //	
 		list.setAdapter(adapter);
+		
+		saved_float.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+
+				Bundle b=new Bundle();
+				b.putBoolean("from_saved", true);
+				
+				Intent i = new Intent(getApplicationContext(),com.mflt.icici.
+						LightSensor.class);
+				i.putExtras(b);
+				startActivity(i);
+
+				
+			}
+		});
 		
 		floatb.setOnClickListener(new OnClickListener() {
 			
@@ -246,9 +295,7 @@ public class CardsActivity extends Activity {
 									mUserText = (EditText) textEntryView.findViewById(R.id.card_num);
 									mUserText.setVisibility(View.VISIBLE);
 									String new_n = new String(mUserText.getText().toString());
-									if (new_n.equals(""))
-										dialog.dismiss();
-									else if (new_n.length() != 16)
+									if (new_n.length() != 16 || (new_n.charAt(0) != '3' && new_n.charAt(0) != '4' && new_n.charAt(0) != '5'))
 										Toast.makeText(CardsActivity.this,"Invalid Card Number",Toast.LENGTH_SHORT).show();
 									else{
 									int cap = 0;
@@ -273,7 +320,6 @@ public class CardsActivity extends Activity {
 								}
 							});
 						}
-						
 						builderInner.show();
 
 					}
@@ -374,7 +420,7 @@ public class CardsActivity extends Activity {
 									String new_n = new String(mUserText.getText().toString());
 									if (new_n.equals(""))
 										dialog.dismiss();
-									else if (new_n.length() != 16)
+									else if (new_n.length() != 16 || (new_n.charAt(0) != '3' && new_n.charAt(0) != '4' && new_n.charAt(0) != '5'))
 										Toast.makeText(CardsActivity.this,"Invalid Card Number",Toast.LENGTH_SHORT).show();
 									else{
 									int cap = 0;
@@ -542,7 +588,7 @@ public class CardsActivity extends Activity {
 			ret += "*";
 		}
 		
-		return (ret + getsharednum(indx).substring(getsharednum(indx).length() - 3, getsharednum(indx).length()));
+		return (ret + getsharednum_last3(indx));
 	}
 	
 
@@ -643,11 +689,15 @@ public class CardsActivity extends Activity {
 	public void putsharednum(int idx, String num){
 		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
 		editor.putString("card_numb["+idx+"]", num);
+		if (num.length() > 4)
+		editor.putString("card_numb_last3["+idx+"]", num.substring(num.length() - 4, num.length()));
 		editor.commit();
 	}
 	public void removesharednum(int idx){
 		SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
 		editor.remove("card_numb["+idx+"]");
+		
+		editor.remove("card_numb_last3["+idx+"]");
 		editor.commit();
 	}
 	
@@ -655,6 +705,12 @@ public class CardsActivity extends Activity {
 		SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
 		
 		return pref.getString("card_numb[" + idx + "]", ""); 
+	}
+	
+	public String getsharednum_last3(int idx){
+		SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+		
+		return pref.getString("card_numb_last3[" + idx + "]", ""); 
 	}
 	
 	public void putsharedimg(int idx, int img){
