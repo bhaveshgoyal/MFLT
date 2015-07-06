@@ -27,6 +27,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+
 public class CardsActivity extends Activity {
 	ListView list;
 	Button floatbut;
@@ -43,8 +45,8 @@ public class CardsActivity extends Activity {
 	Timer t;
 	int idx;
 	int size_ind;
-	int rem_time;
-	Button saved_float;
+	long rem_time;
+	FloatingActionButton saved_float;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -115,29 +117,35 @@ public class CardsActivity extends Activity {
 //		putsharedimg(1, cards_sel.get(1).image);
 //		putsharedimg(2, cards_sel.get(2).image);
 //		
-		SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+		final SharedPreferences prefs = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
 		
 		
-		saved_float = (Button)findViewById(R.id.saved_floating);
+		saved_float = (FloatingActionButton)findViewById(R.id.saved_floating);
 		
 		
 		if (!prefs.getString("saved_num", "").equals("")){
 			
-			int time_to_clean = prefs.getInt("rem_time", 0);
+			final long time_to_clean = prefs.getLong("rem_time", Long.parseLong("60000"));
 			
-			new CountDownTimer(60000 - time_to_clean, 1000) {
+			new CountDownTimer(time_to_clean, 1000) {
 			
 			SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
 			
 		     public void onTick(long millisUntilFinished) {
-		    	 editor.putInt("rem_time", (int)(millisUntilFinished / 1000));
+		    	 editor.putLong("rem_time",millisUntilFinished);
+				 saved_float.setProgress((int) (100 * (millisUntilFinished) / 60000), true);
 		    	 editor.commit();
-		     }
+				 SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+
+				 System.out.println("tine: " + pref.getLong("rem_time", Long.parseLong("0")));
+
+			 }
 
 		     public void onFinish() {
-		    	 saved_float.setVisibility(View.GONE);
+		    	 saved_float.hide(true);
 		    		editor.putString("saved_num", "");
 					editor.putString("saved_amnt","");
+				 	editor.remove("rem_time");
 					editor.commit();
 		     }
 		  }.start();

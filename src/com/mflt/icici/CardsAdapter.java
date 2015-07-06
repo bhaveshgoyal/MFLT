@@ -32,7 +32,7 @@ public class CardsAdapter extends ArrayAdapter<String>{
 		this.imageId = imageId;
 		this.infolist = infolist;
 	}
-	
+
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		if(view == null){

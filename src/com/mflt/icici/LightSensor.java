@@ -31,10 +31,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.github.clans.fab.FloatingActionButton;
 
 @SuppressLint({ "ResourceAsColor", "UseValueOf" })
 public class LightSensor extends Activity {
@@ -50,7 +51,7 @@ public class LightSensor extends Activity {
 	Button button9;
 	Button buttonb;
 	Button buttont;
-
+	FloatingActionButton fab_cancel;
 	Button saved_float;
 	ImageView pin0;
 	ImageView pin1;
@@ -166,6 +167,7 @@ public class LightSensor extends Activity {
 		buttonb.setTextColor(Color.WHITE);
 		buttonb.setTypeface(xpressive);
 
+
 		//		ImageButton pin0 = (ImageButton)findViewById(R.id.pin0);
 		//		pin0.setImageResource(R.drawable.dollarf);
 
@@ -214,20 +216,24 @@ public class LightSensor extends Activity {
 		if (!pref.getString("saved_num", "").equals("") && !b.getBoolean("from_saved",false)){
 			
 			
-			int time_to_clean = pref.getInt("rem_time", 0);
-			
-			new CountDownTimer(60000 - time_to_clean, 1000) {
+			final long time_to_clean = pref.getLong("rem_time", Long.parseLong("60000"));
+
+			new CountDownTimer(time_to_clean, 1000) {
 			
 			SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
 			
 		     public void onTick(long millisUntilFinished) {
-		    	 editor.putInt("rem_time", (int)(millisUntilFinished / 1000));
+		    	 editor.putLong("rem_time",millisUntilFinished);
 		    	 editor.commit();
+				 SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+
+				 System.out.println("tine: " + millisUntilFinished);
 		     }
 
 		     public void onFinish() {
 		    	editor.putString("saved_num", "");
 				editor.putString("saved_amnt","");
+				 editor.remove("rem_time");
 				editor.commit();
 		     }
 		  }.start();
@@ -268,7 +274,6 @@ public class LightSensor extends Activity {
 			public void onClick(View arg0) {
 
 //				System.out.println("flag: " + cancel_flag);
-
 				if (start == true){
 					cancel = true;
 					trans();
@@ -349,7 +354,6 @@ public class LightSensor extends Activity {
 				//				    for (int i = 0; i < jumbled.length; i++) {
 				//						num += jumbled[i];
 				//					}
-				System.out.println("num " + num);
 
 				//				    jumbled[0] = 
 				//				RSA rsa = new RSA(1024);
@@ -369,7 +373,6 @@ public class LightSensor extends Activity {
 					return;
 				}
 
-				System.out.print("Num length: " + num.length());
 
 //				String part_1 = num.substring(1,8);
 //				String part_2 = num.substring(8,15);
@@ -389,7 +392,7 @@ public class LightSensor extends Activity {
 				
 				String enc_atm = unenc_atm.modPow(e1,n1).toString();
 				String final_enc = "" + 7 + num.substring(0,5) + repeat("0",17 - enc_atm.toString().length()) + enc_atm;
-				System.out.println("final: " + final_enc);
+
 //				Toast.makeText(LightSensor.this,final_enc,Toast.LENGTH_LONG).show();
 //				String final_enc = enc_1 + enc_2 + enc_3;
 
@@ -455,7 +458,7 @@ public class LightSensor extends Activity {
 									String amnt_parsed = repeat("0",5-amount.length()) + amount;
 									num += dialog_option + amnt_parsed + "7";
 									start = true;
-								
+
 									trans_process();
 									}
 								}
@@ -472,49 +475,49 @@ public class LightSensor extends Activity {
 									editor.putString("saved_num", num);
 									editor.putString("saved_amnt",	mUserText.getText().toString());
 									editor.commit();
-									pcode = "";
-									pin0 = (ImageView)findViewById(R.id.pin0);
-									pin0.setImageResource(R.drawable.dollar_empty2);
-									pin1 = (ImageView)findViewById(R.id.pin1);
-									pin1.setImageResource(R.drawable.dollar_empty2);
-									pin2 = (ImageView)findViewById(R.id.pin2);
-									pin2.setImageResource(R.drawable.dollar_empty2);
-									pin3 = (ImageView)findViewById(R.id.pin3);
-									pin3.setImageResource(R.drawable.dollar_empty2);
-									button0.setTextColor(Color.WHITE);
-									button0.setClickable(true);
-
-									button1.setTextColor(Color.WHITE);
-									button1.setClickable(true);
-
-									button2.setTextColor(Color.WHITE);
-									button2.setClickable(true);
-
-									button3.setTextColor(Color.WHITE);
-									button3.setClickable(true);
-
-									button4.setTextColor(Color.WHITE);
-									button4.setClickable(true);
-
-									button5.setTextColor(Color.WHITE);
-									button5.setClickable(true);
-
-									button6.setTextColor(Color.WHITE);
-									button6.setClickable(true);
-
-									button7.setTextColor(Color.WHITE);
-									button7.setClickable(true);
-
-									button8.setTextColor(Color.WHITE);
-									button8.setClickable(true);
-
-									button9.setTextColor(Color.WHITE);
-									button9.setClickable(true);
-									
-									Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.disable);
-									buttont.setText("");
-									img.setBounds( 0, 0, 98, 98 );
-									buttont.setCompoundDrawables( img, null, null, null );
+//									pcode = "";
+//									pin0 = (ImageView)findViewById(R.id.pin0);
+//									pin0.setImageResource(R.drawable.dollar_empty2);
+//									pin1 = (ImageView)findViewById(R.id.pin1);
+//									pin1.setImageResource(R.drawable.dollar_empty2);
+//									pin2 = (ImageView)findViewById(R.id.pin2);
+//									pin2.setImageResource(R.drawable.dollar_empty2);
+//									pin3 = (ImageView)findViewById(R.id.pin3);
+//									pin3.setImageResource(R.drawable.dollar_empty2);
+//									button0.setTextColor(Color.WHITE);
+//									button0.setClickable(true);
+//
+//									button1.setTextColor(Color.WHITE);
+//									button1.setClickable(true);
+//
+//									button2.setTextColor(Color.WHITE);
+//									button2.setClickable(true);
+//
+//									button3.setTextColor(Color.WHITE);
+//									button3.setClickable(true);
+//
+//									button4.setTextColor(Color.WHITE);
+//									button4.setClickable(true);
+//
+//									button5.setTextColor(Color.WHITE);
+//									button5.setClickable(true);
+//
+//									button6.setTextColor(Color.WHITE);
+//									button6.setClickable(true);
+//
+//									button7.setTextColor(Color.WHITE);
+//									button7.setClickable(true);
+//
+//									button8.setTextColor(Color.WHITE);
+//									button8.setClickable(true);
+//
+//									button9.setTextColor(Color.WHITE);
+//									button9.setClickable(true);
+//
+//									Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.disable);
+//									buttont.setText("");
+//									img.setBounds( 0, 0, 98, 98 );
+//									buttont.setCompoundDrawables( img, null, null, null );
 
 									Toast.makeText(LightSensor.this, "Current Session Saved", Toast.LENGTH_SHORT).show();
 									
@@ -635,40 +638,35 @@ public class LightSensor extends Activity {
 				}
 			}
 
-			public void trans_process(){
-				String[] num2 = new String[2*num.length()];
-				for(int tmp = 1; tmp <= 2*num.length();tmp++){
-					if (tmp % 2 == 1){
+			public void trans_process() {
+				String[] num2 = new String[2 * num.length()];
+				for (int tmp = 1; tmp <= 2 * num.length(); tmp++) {
+					if (tmp % 2 == 1) {
 						num2[tmp - 1] = "" + 1;
-					}
-
-					else{
-						num2[tmp - 1] = num.charAt((tmp/2) - 1) + "";
+					} else {
+						num2[tmp - 1] = num.charAt((tmp / 2) - 1) + "";
 					}
 				}
-				
+
 //				EditText field = (EditText)findViewById(R.id.lednum);
 				String disp = new String();
-				for(int i=0;i<num2.length;i++){
+				for (int i = 0; i < num2.length; i++) {
 					disp += num2[i] + "";
 				}
 //				field.setText(num2.length);
 //				boolean flag = true;
-				System.out.println("final num2:" + disp);
-				bin = new String[3*num2.length];
-				
-				int j=0;
-				for(int i = 0; i < num2.length;i++){
-					if (i%2 == 0){
+				bin = new String[3 * num2.length];
+
+				int j = 0;
+				for (int i = 0; i < num2.length; i++) {
+					if (i % 2 == 0) {
 						bin[j++] = "0";
 						bin[j++] = "1";
-					}
-
-					else{
+					} else {
 						Integer temp = new Integer(Integer.parseInt(num2[i] + ""));
 
-						tempstr = repeat("0",4-Integer.toBinaryString(temp).length()) + Integer.toBinaryString(temp);
-						for(int index = 0; index < 4; index++){
+						tempstr = repeat("0", 4 - Integer.toBinaryString(temp).length()) + Integer.toBinaryString(temp);
+						for (int index = 0; index < 4; index++) {
 							bin[j++] = tempstr.charAt(index) + "";
 						}
 					}
@@ -682,9 +680,8 @@ public class LightSensor extends Activity {
 					//							}
 
 				}
-			
 
-				System.out.println("final bin:" + bin.toString());
+
 				//				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_LONG);
 				//				toasty.show();
 
@@ -699,12 +696,46 @@ public class LightSensor extends Activity {
 //					//					}
 //					return;
 //				}
-				
-				System.out.println("final: " + num);
-				Drawable img = getApplicationContext().getResources().getDrawable( R.drawable.cancel);
-				img.setBounds( 0, 0, 98, 98 );
+
+				Drawable img = getApplicationContext().getResources().getDrawable(R.drawable.cancel);
+				img.setBounds(0, 0, 98, 98);
 				buttont.setText("");
-				buttont.setCompoundDrawables( img, null, null, null );
+				buttont.setCompoundDrawables(img, null, null, null);
+
+				fab_cancel = (FloatingActionButton)findViewById(R.id.cancel_float);
+				if (hasflash == true){
+					RelativeLayout process_lay = (RelativeLayout) findViewById(R.id.process_layout);
+					process_lay.setVisibility(View.VISIBLE);
+					fab_cancel.setVisibility(View.VISIBLE);
+				}
+				fab_cancel.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (hasflash == true) {
+							if (isLighOn && camera != null) {
+								p.setFlashMode(Parameters.FLASH_MODE_OFF);
+								camera.setParameters(p);
+								camera.stopPreview();
+								isLighOn = false;
+							}
+						} else {
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+
+									LinearLayout temp = (LinearLayout) findViewById(R.id.screen_trans);
+									temp.setVisibility(View.GONE);
+
+								}
+							});
+							//						screen.setVisibility(View.GONE);
+						}
+						start = false;
+						cancel = false;
+						System.exit(0);
+					}
+				});
+
 				timer.scheduleAtFixedRate(new TimerTask() {
 
 					synchronized public void run() {
@@ -720,7 +751,13 @@ public class LightSensor extends Activity {
 				toast.show();
 			}
 			public void trans(){
-				
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						fab_cancel.setProgress((100*mind / bin.length), true);
+
+					}
+				});
 				if (mind == bin.length || cancel == true){
 					
 					if (hasflash == true){
@@ -885,10 +922,7 @@ public class LightSensor extends Activity {
 				fld = "pin" + (pcode.length() - 1) + "";
 				Context context = getApplicationContext();
 				CharSequence text = fld;
-				int duration = Toast.LENGTH_SHORT;
 
-				Toast toast = Toast.makeText(context, pcode, duration);
-				toast.show();
 				break;
 			case R.id.button1:
 				pcode += "1";

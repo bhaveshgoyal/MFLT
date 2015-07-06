@@ -1,5 +1,6 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#f6f6f6"
     android:layout_width="match_parent"
@@ -20,15 +21,8 @@
         android:dividerHeight="10dp" >
     </ListView>
     
-      <!--  <android.support.design.widget.FloatingActionButton
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_gravity="bottom|right"
-              android:layout_margin="16dp"
-              android:src="@drawable/ic_done"
-              app:layout_anchor="@id/lvToDoList"
-              app:layout_anchorGravity="bottom|right|end" />
-                -->
+
+
   <!--  <Button
        android:id="@+id/floating"
        android:layout_gravity="end|bottom"
@@ -48,15 +42,41 @@
         android:layout_gravity="bottom"       
         >
         
-      <Button
-       android:id="@+id/saved_floating"
-       android:layout_alignParentRight="true"
-       android:layout_marginBottom="7dp"
-       android:layout_marginRight="@dimen/activity_horizontal_margin"
-       android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:background="@drawable/saved_butt"
-               />  
+      <!--<Button-->
+       <!--android:id="@+id/saved_floating"-->
+       <!--android:layout_alignParentRight="true"-->
+       <!--android:layout_marginBottom="7dp"-->
+       <!--android:layout_marginRight="@dimen/activity_horizontal_margin"-->
+       <!--android:layout_width="60dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:background="@drawable/saved_butt"-->
+               <!--/>-->
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/saved_floating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_atmcards"
+            fab:fab_colorNormal="@color/app_primary"
+            fab:fab_colorPressed="@color/app_primary_pressed"
+            fab:fab_colorRipple="@color/app_ripple"
+            fab:fab_hideAnimation="@anim/fab_scale_down"
+            fab:fab_progress_color="#FF009688"
+            fab:fab_progress_backgroundColor="#f6f6f6"
+            fab:fab_progress_max="100"
+            fab:fab_progress_showBackground="false" />
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/saved_floating"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_margin="16dp"-->
+            <!--android:background="@color/nexusblack"-->
+            <!--android:src="@drawable/ic_done"/>-->
      
    <Button android:id="@+id/floating" 
        
@@ -70,7 +90,10 @@
           android:background="@drawable/buy" 
           android:layout_gravity="center|bottom" 
           android:text="ADD CARD" />
+   
+   
     
      </RelativeLayout>
+
 
 </FrameLayout>

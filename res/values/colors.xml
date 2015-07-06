@@ -3,6 +3,11 @@
     <color name="nexusblack">#434343</color>
     
     <color name="nexusgrey">#666666</color>
-    
+
+    <color name="app_primary">#FF5722</color>
+
+    <color name="app_primary_pressed">#E64A19</color>
+
+    <color name="app_ripple">#E64A19</color>
 </resources>
 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/bhavesh/ICICI/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/home/bhavesh/ICICI/build/intermediates/pre-dexed/debug/classes-87721d19efc6766b04c4d532ad15910ed88c7f43.jar" />
+    </item>
+    <item
+        jar="/home/bhavesh/Development/adt-bundle-linux-x86_64-20131030/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/home/bhavesh/ICICI/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-ee2887cc17a1e87658abe9ff7cd2d326b474619e.jar" />
+    </item>
+    <item
+        jar="/home/bhavesh/ICICI/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/home/bhavesh/ICICI/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-b63d4bb5ea13bde5c33b9f8f169c3c60ef8de451.jar" />
+    </item>
+    <item
+        jar="/home/bhavesh/ICICI/build/intermediates/exploded-aar/com.android.support/design/22.2.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="fc63b820d54c8a27a3a614bdd93920e0076581c2">
+        <dex dex="/home/bhavesh/ICICI/build/intermediates/pre-dexed/debug/classes-efb5476b7c0c9c2b9135fcabeecdb92ca6bf2e19.jar" />
+    </item>
+    <item
+        jar="/home/bhavesh/ICICI/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/home/bhavesh/ICICI/build/intermediates/pre-dexed/debug/classes-db4deed6655a34effc2babb3209199849aeb6d9f.jar" />
+    </item>
+    <item
+        jar="/home/bhavesh/ICICI/build/intermediates/exploded-aar/com.github.clans/fab/1.5.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2442ffbd2ff712ca970b0084f1fb2ed61965b94f">
+        <dex dex="/home/bhavesh/ICICI/build/intermediates/pre-dexed/debug/classes-b2da48053afe96f177049ac20f98ad47a83ad70d.jar" />
+    </item>
+
+</items>

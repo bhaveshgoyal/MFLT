@@ -50,20 +50,25 @@ public class LoginActivity extends Activity {
 		
 		SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
 		if (!pref.getString("saved_num", "").equals("")){
-			int time_to_clean = pref.getInt("rem_time", 0);
+			final long time_to_clean = pref.getLong("rem_time", Long.parseLong("60000"));
 			
-			new CountDownTimer(60000 - time_to_clean, 1000) {
+			new CountDownTimer(time_to_clean, 1000) {
 			
 			SharedPreferences.Editor editor = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE).edit();
 			
 		     public void onTick(long millisUntilFinished) {
-		    	 editor.putInt("rem_time", (int)(millisUntilFinished / 1000));
+		    	 editor.putLong("rem_time", millisUntilFinished);
 		    	 editor.commit();
-		     }
+				 SharedPreferences pref = getSharedPreferences("ICICI_PREFS", MODE_PRIVATE);
+
+				 System.out.println("tine: " + pref.getLong("rem_time", Long.parseLong("0")));
+
+			 }
 
 		     public void onFinish() {
 		    		editor.putString("saved_num", "");
 					editor.putString("saved_amnt","");
+				 editor.remove("rem_time");
 					editor.commit();
 		     }
 		  }.start();
