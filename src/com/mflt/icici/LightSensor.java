@@ -639,13 +639,13 @@ public class LightSensor extends Activity {
 			}
 
 			public void trans_process() {
-				String[] num2 = new String[2 * num.length()];
-				for (int tmp = 1; tmp <= 2 * num.length(); tmp++) {
-					if (tmp % 2 == 1) {
-						num2[tmp - 1] = "" + 1;
-					} else {
-						num2[tmp - 1] = num.charAt((tmp / 2) - 1) + "";
-					}
+				String[] num2 = new String[num.length()];
+				for (int tmp = 0; tmp < num.length(); tmp++) {
+//					if (tmp % 2 == 1) {
+//						num2[tmp - 1] = "" + 1;
+//					} else {
+						num2[tmp] = num.charAt(tmp) + "";
+//					}
 				}
 
 //				EditText field = (EditText)findViewById(R.id.lednum);
@@ -653,22 +653,23 @@ public class LightSensor extends Activity {
 				for (int i = 0; i < num2.length; i++) {
 					disp += num2[i] + "";
 				}
+				System.out.println("disp :" + disp);
 //				field.setText(num2.length);
 //				boolean flag = true;
-				bin = new String[3 * num2.length];
+				bin = new String[4 * num2.length];
 
 				int j = 0;
 				for (int i = 0; i < num2.length; i++) {
-					if (i % 2 == 0) {
-						bin[j++] = "0";
-						bin[j++] = "1";
-					} else {
+//					if (i % 2 == 0) {
+//						bin[j++] = "0";
+//						bin[j++] = "1";
+//					} else {
 						Integer temp = new Integer(Integer.parseInt(num2[i] + ""));
 
 						tempstr = repeat("0", 4 - Integer.toBinaryString(temp).length()) + Integer.toBinaryString(temp);
 						for (int index = 0; index < 4; index++) {
 							bin[j++] = tempstr.charAt(index) + "";
-						}
+//						}
 					}
 
 					//						for(int index = 0; index < 4; index++){
@@ -680,7 +681,7 @@ public class LightSensor extends Activity {
 					//							}
 
 				}
-
+System.out.println("bin:" + bin);
 
 				//				Toast toasty = Toast.makeText(getApplicationContext(), disp, Toast.LENGTH_LONG);
 				//				toasty.show();

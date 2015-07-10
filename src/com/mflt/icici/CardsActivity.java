@@ -208,19 +208,19 @@ public class CardsActivity extends Activity {
 		list.setAdapter(adapter);
 		
 		saved_float.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 
-				Bundle b=new Bundle();
+				Bundle b = new Bundle();
 				b.putBoolean("from_saved", true);
-				
-				Intent i = new Intent(getApplicationContext(),com.mflt.icici.
+
+				Intent i = new Intent(getApplicationContext(), com.mflt.icici.
 						LightSensor.class);
 				i.putExtras(b);
 				startActivity(i);
 
-				
+
 			}
 		});
 		
@@ -256,14 +256,17 @@ public class CardsActivity extends Activity {
 						CardsActivity.this);
 				builderSingle.setIcon(R.drawable.ic_launcher);
 				builderSingle.setTitle("New Card Data");
-				final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-						CardsActivity.this,
-						android.R.layout.select_dialog_singlechoice);
-				arrayAdapter.add("Add Card Number");
-
+				builderSingle.setMessage("Input Card Number To Be Used");
 				LayoutInflater factory = LayoutInflater.from(CardsActivity.this);
-				final View textEntryView = factory.inflate(R.layout.design_card, null);  
+				final View textEntryView = factory.inflate(R.layout.design_card, null);
 
+				TextView card_n = (TextView) textEntryView.findViewById(R.id.edit_card);
+				card_n.setVisibility(View.GONE);
+				EditText mUserText;
+				mUserText = (EditText) textEntryView.findViewById(R.id.card_info);
+				mUserText.setVisibility(View.GONE);
+
+				builderSingle.setView(textEntryView);
 				builderSingle.setNegativeButton("Cancel",
 						new DialogInterface.OnClickListener() {
 
@@ -272,63 +275,28 @@ public class CardsActivity extends Activity {
 						dialog.dismiss();
 					}
 				});
-
-				builderSingle.setAdapter(arrayAdapter,
-						new DialogInterface.OnClickListener() {
-
-					@Override
+				builderSingle.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						String strName = arrayAdapter.getItem(which);
-						AlertDialog.Builder builderInner = new AlertDialog.Builder(
-								CardsActivity.this);
-						if (strName.equals("Add Card Number")){
-							builderInner.setTitle("Card Number");
-							builderInner.setMessage("Enter New Card Number");
-							TextView card_n = (TextView)textEntryView.findViewById(R.id.edit_card);
-							card_n.setVisibility(View.GONE);
-							EditText mUserText;
-							mUserText = (EditText) textEntryView.findViewById(R.id.card_info);
-							mUserText.setVisibility(View.GONE);
-							
-							builderInner.setView(textEntryView);
-							builderInner.setPositiveButton("Done",
-									new DialogInterface.OnClickListener() {
-
-								@Override
-								public void onClick(
-										DialogInterface dialog,
-										int which) {
-
-									EditText mUserText;
-									mUserText = (EditText) textEntryView.findViewById(R.id.card_num);
-									mUserText.setVisibility(View.VISIBLE);
-									String new_n = new String(mUserText.getText().toString());
-									if (new_n.length() != 16 || (new_n.charAt(0) != '3' && new_n.charAt(0) != '4' && new_n.charAt(0) != '5'))
-										Toast.makeText(CardsActivity.this,"Invalid Card Number",Toast.LENGTH_SHORT).show();
-									else{
-									int cap = 0;
-									for (int i = 0; i < getcardcnt(); i++) {
-										if (new_n.equals(getsharednum(i))){
-											Toast.makeText(CardsActivity.this,"Card Number already Exists",Toast.LENGTH_SHORT).show();
-											cap = 1;
-										}
-									}
-									if (cap != 1){
-										putsharednum(size_ind, new_n);
-									Toast.makeText(CardsActivity.this,"Card Number Successfully Edited",Toast.LENGTH_SHORT).show();
-									dialog.dismiss();
-									}
-									}
-									
+						EditText mUserText;
+						mUserText = (EditText) textEntryView.findViewById(R.id.card_num);
+						mUserText.setVisibility(View.VISIBLE);
+						String new_n = new String(mUserText.getText().toString());
+						if (new_n.length() != 16 || (new_n.charAt(0) != '3' && new_n.charAt(0) != '4' && new_n.charAt(0) != '5'))
+							Toast.makeText(CardsActivity.this,"Invalid Card Number",Toast.LENGTH_SHORT).show();
+						else{
+							int cap = 0;
+							for (int i = 0; i < getcardcnt(); i++) {
+								if (new_n.equals(getsharednum(i))){
+									Toast.makeText(CardsActivity.this,"Card Number already Exists",Toast.LENGTH_SHORT).show();
+									cap = 1;
 								}
-							});
-							builderInner.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int which) {
-									return;   
-								}
-							});
+							}
+							if (cap != 1){
+								putsharednum(size_ind, new_n);
+								Toast.makeText(CardsActivity.this,"Card Number Successfully Edited",Toast.LENGTH_SHORT).show();
+								dialog.dismiss();
+							}
 						}
-						builderInner.show();
 
 					}
 				});
